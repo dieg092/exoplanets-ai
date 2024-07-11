@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { generateText, tool } from "ai";
 import { ollama } from "ollama-ai-provider";
 import exoplantets from "@/data/exoplanets.json";
@@ -9,19 +9,21 @@ import fields_definition from "@/data/fields_definition.json";
 export default function Home() {
   const [prompt, setPrompt] = useState("");
   const [result, setResult] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setResult("");
+    setIsLoading(true);
+
     try {
       const result = await generateText({
         maxTokens: 40,
         messages: [
           {
-            content: JSON.stringify(exoplantets),
-            role: "system",
-          },
-          {
-            content: fields_definition.toString(),
+            content: `Eres un experto en exoplanetas, dada la siguiente lista de exoplanetas ${JSON.stringify(
+              exoplantets
+            )}, representan un conjunto de llaves y valores, cada llave y valor hace difinicion a: ${fields_definition.toString()}. Debes responder en el idioma español  a lo que el usuario te pregunte basandote en estos datos. Se directo y acertivo.`,
             role: "system",
           },
           {
@@ -31,13 +33,13 @@ export default function Home() {
         ],
         // prompt: prompt,
         model: ollama("llama3"),
-        system: "Eres un experto en exoplanetas",
       });
-
       setResult(result.text);
     } catch (error) {
       console.error("Error generating text:", error);
       setResult("Failed to generate text");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -53,6 +55,7 @@ export default function Home() {
         />
         <button type="submit">Generate</button>
       </form>
+      {isLoading && <p>Loading...</p>}
       {result && <p>Result: {result}</p>}
     </div>
   );

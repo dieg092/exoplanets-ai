@@ -1,0 +1,12 @@
+{
+  "exoplanets": [
+    {
+      "name": "Proxima Centauri b",
+      "mass": "1.27",
+      "radius": "1.08",
+      "orbital_period": "11.2",
+      "discovery_year": "2016",
+      "host_star": "Proxima Centauri"
+    }
+  ]
+}

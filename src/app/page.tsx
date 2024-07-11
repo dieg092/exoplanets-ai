@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { generateText, tool } from "ai";
+import { streamText } from "ai";
 import { ollama } from "ollama-ai-provider";
 import exoplantets from "@/data/exoplanets.json";
 import fields_definition from "@/data/fields_definition.json";
@@ -17,8 +17,9 @@ export default function Home() {
     setIsLoading(true);
 
     try {
-      const result = await generateText({
-        maxTokens: 40,
+      const { textStream } = await streamText({
+        abortSignal: AbortSignal.timeout(30000),
+        maxTokens: 500,
         messages: [
           {
             content: `Eres un experto en exoplanetas, dada la siguiente lista de exoplanetas ${JSON.stringify(
@@ -34,7 +35,10 @@ export default function Home() {
         // prompt: prompt,
         model: ollama("llama3"),
       });
-      setResult(result.text);
+
+      for await (const delta of textStream) {
+        setResult((text) => (text += delta));
+      }
     } catch (error) {
       console.error("Error generating text:", error);
       setResult("Failed to generate text");
@@ -56,7 +60,7 @@ export default function Home() {
         <button type="submit">Generate</button>
       </form>
       {isLoading && <p>Loading...</p>}
-      {result && <p>Result: {result}</p>}
+      {result && <p>{result}</p>}
     </div>
   );
 }

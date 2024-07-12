@@ -29,6 +29,7 @@ export default function Home() {
         <button type="submit" disabled={isLoading}>
           Submit
         </button>
+        {error && <p className="text-red-500">{error.message}</p>}
         {isLoading && <p>Loading...</p>}
       </form>
     </div>

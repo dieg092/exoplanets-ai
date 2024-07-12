@@ -19,7 +19,6 @@ export async function POST(req: Request) {
   const result = await streamText({
     // model: openai("gpt-4"),
     model: ollama("llama3"),
-
     system: systemConfig,
     messages,
   });

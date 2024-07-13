@@ -1,0 +1,17 @@
+field = label
+
+kepid = Kepler Identification or KepID
+kepler_name = Kepler Name
+host_star = Kepler Star Name
+koi_disposition = Exoplanet Archive Disposition
+koi_period = Orbital Period (days)
+koi_prad = Planetary Radius (Earth radii)
+koi_sma = Orbit Semi-Major Axis (Astronomical Unit (au))
+koi_teq = Equilibrium Temperature (Kelvin)
+koi_pdisposition = Disposition Using Kepler Data
+koi_dor = Planet-Star Distance over Star Radius
+koi_count = Number of Planets
+koi_steff = Stellar Effective Temperature (Kelvin)
+koi_slogg = Stellar Surface Gravity log10(cm s-2)
+koi_srad = Stellar Radius (solar radii)
+koi_smass = Stellar Mass (solar mass)

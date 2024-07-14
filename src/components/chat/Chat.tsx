@@ -2,7 +2,7 @@
 
 import { useLayoutEffect, useRef } from "react";
 import { Message, useChat } from "ai/react";
-import { Loader, Send } from "lucide-react";
+import { DiamondMinus, Loader, Send } from "lucide-react";
 
 const initialMessages: Message[] = [
   {
@@ -13,7 +13,11 @@ const initialMessages: Message[] = [
   },
 ];
 
-const Chat = () => {
+const Chat = ({
+  setIsHidden,
+}: {
+  setIsHidden: (isHidden: boolean) => void;
+}) => {
   const { messages, input, isLoading, error, handleInputChange, handleSubmit } =
     useChat({
       api: "api/chat",
@@ -21,14 +25,14 @@ const Chat = () => {
       initialMessages: initialMessages,
     });
 
-  const messagesEndRef = useRef(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputDisabled = input.length === 0 || isLoading;
 
   useLayoutEffect(() => {
     messagesEndRef.current?.scrollIntoView({ block: "end" });
   });
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
       !inputDisabled && handleSubmit(e);
@@ -36,26 +40,29 @@ const Chat = () => {
   };
 
   return (
-    <div className="absolute flex flex-col top-1/2 left-3/4 transform -translate-x-1/2 -translate-y-1/2 w-1/3 h-5/6 z-50 bg-neutral-900 bg-opacity-20 backdrop-blur-lg rounded-xl shadow-xl border border-white border-opacity-20">
-      <h1 className="px-4 py-3 text-center text-white text-lg"></h1>
+    <div className="absolute flex flex-col top-1/2 left-[83%] transform -translate-x-1/2 -translate-y-1/2 w-1/3 h-5/6 z-50 bg-neutral-900 bg-opacity-20 backdrop-blur-lg rounded-xl shadow-xl border border-white border-opacity-20 ">
+      <h1 className="px-4 py-3 text-center text-white text-lg">
+        <DiamondMinus
+          className="hover:cursor-pointer hover:text-slate-400 hover:transition hover:ease-in-out hover:scale-125"
+          onClick={(e) => {
+            setIsHidden(true);
+          }}
+        />
+      </h1>
       <div className="flex-grow overflow-y-auto px-4 rounded-xl no-scrollbar">
         {messages.map((message) => (
-          <>
-            {message.content.length > 0 && (
-              <div key={message.id} className="py-2 text-white">
-                <p className="font-bold">
-                  {message.role === "user" ? "User: " : "AI: "}
-                </p>
-                <p className="font-regular">{message.content}</p>
-              </div>
-            )}
-          </>
+          <div key={message.id} className="py-2 text-white">
+            <p className="font-bold">
+              {message.role === "user" ? "User: " : "AI: "}
+            </p>
+            <p className="font-regular">{message.content}</p>
+          </div>
         ))}
         <div ref={messagesEndRef} />
       </div>
       <form onSubmit={handleSubmit} className="flex items-center px-3 pb-3">
         <textarea
-          className="border rounded-md mr-2 flex-grow p-2 bg-neutral-900 bg-opacity-30 text-white backdrop-blur-md"
+          className="border rounded-md mr-2 flex-grow p-2 bg-black bg-opacity-30 text-white backdrop-blur-md"
           name="prompt"
           value={input}
           onChange={handleInputChange}

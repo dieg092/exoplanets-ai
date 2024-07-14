@@ -1,7 +1,7 @@
 "use client";
 import { Exoplanet } from "@/components/3d/Exoplanet";
 import { Universe } from "@/components/3d/Universe";
-import Chat from "@/components/Chat";
+import { ChatWrapper } from "@/components/chat/ChatWrapper";
 import { CameraControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
@@ -27,7 +27,7 @@ const Page = () => {
         {/* Universe sphere example */}
         <Universe position={[0, 0, 0]} />
       </Canvas>
-      <Chat />
+      <ChatWrapper />
     </div>
   );
 };

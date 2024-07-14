@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { Message, useChat } from "ai/react";
 import { Loader, Send } from "lucide-react";
-import { createOpenAI } from "@ai-sdk/openai";
 
 const initialMessages: Message[] = [
   {

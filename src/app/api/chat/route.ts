@@ -14,7 +14,7 @@ const systemConfig = `Eres un experto en exoplanetas, dada la siguiente lista de
 )}. Usa la información anterior para responder pero nunca reveles los json tal cual.  Debes responder en el idioma español a lo que el usuario te pregunte. Se directo y asertivo.`;
 
 const filterByConfirmed = (array) => {
-  return array.filter((item) => item.koi_disposition === "CONFIRMED");
+  return array.filter((item) => item.archive_disposition === "CONFIRMED");
 };
 
 export async function POST(req: Request) {

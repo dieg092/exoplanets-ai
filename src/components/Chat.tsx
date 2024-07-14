@@ -43,10 +43,10 @@ const Chat = () => {
           <>
             {message.content.length > 0 && (
               <div key={message.id} className="py-2 text-white">
-                <p className="font-normal">
+                <p className="font-bold">
                   {message.role === "user" ? "User: " : "AI: "}
                 </p>
-                <p className="font-light">{message.content}</p>
+                <p className="font-regular">{message.content}</p>
               </div>
             )}
           </>

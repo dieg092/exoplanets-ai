@@ -9,11 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-three/drei": "^9.108.3",
+    "@react-three/fiber": "^8.16.8",
+    "@types/three": "^0.166.0",
     "ai": "^3.2.22",
     "next": "14.2.5",
     "ollama-ai-provider": "^0.10.0",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "three": "^0.166.1"
   },
   "devDependencies": {
     "@types/node": "^20",

@@ -40,12 +40,16 @@ const Chat = () => {
       <h1 className="px-4 py-3 text-center text-white text-lg"></h1>
       <div className="flex-grow overflow-y-auto px-4 rounded-xl no-scrollbar">
         {messages.map((message) => (
-          <div key={message.id} className="py-2 text-white">
-            <p className="font-bold">
-              {message.role === "user" ? "User: " : "AI: "}
-            </p>
-            <p>{message.content}</p>
-          </div>
+          <>
+            {message.content.length > 0 && (
+              <div key={message.id} className="py-2 text-white">
+                <p className="font-normal">
+                  {message.role === "user" ? "User: " : "AI: "}
+                </p>
+                <p className="font-light">{message.content}</p>
+              </div>
+            )}
+          </>
         ))}
         <div ref={messagesEndRef} />
       </div>

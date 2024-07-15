@@ -14,9 +14,11 @@ const initialMessages: Message[] = [
 ];
 
 const Chat = ({
-  setIsHidden,
+  isChatHidden,
+  handleChatHidden,
 }: {
-  setIsHidden: (isHidden: boolean) => void;
+  isChatHidden: boolean;
+  handleChatHidden: () => void;
 }) => {
   const { messages, input, isLoading, error, handleInputChange, handleSubmit } =
     useChat({
@@ -40,15 +42,17 @@ const Chat = ({
   };
 
   return (
-    <div className="absolute flex flex-col top-1/2 left-[83%] transform -translate-x-1/2 -translate-y-1/2 w-1/3 h-5/6 z-50 bg-neutral-900 bg-opacity-20 backdrop-blur-lg rounded-xl shadow-xl border border-white border-opacity-20 ">
-      <h1 className="px-4 py-3 text-center text-white text-lg">
+    <div
+      className={`${
+        isChatHidden ? "opacity-0 z-10" : "opacity-100 z-50"
+      } transition-opacity duration-700 absolute flex flex-col top-1/2 left-[82%] transform -translate-x-1/2 -translate-y-1/2 w-1/3 h-5/6 bg-neutral-900 bg-opacity-20 backdrop-blur-lg rounded-xl shadow-xl border border-white border-opacity-20`}
+    >
+      <div className="flex justify-end px-4 py-3 text-white text-lg w-full">
         <DiamondMinus
-          className="hover:cursor-pointer hover:text-slate-400 hover:transition hover:ease-in-out hover:scale-125"
-          onClick={(e) => {
-            setIsHidden(true);
-          }}
+          className="hover:cursor-pointer hover:text-slate-400 hover:transition hover:ease-in-out hover:scale-125 "
+          onClick={() => handleChatHidden()}
         />
-      </h1>
+      </div>
       <div className="flex-grow overflow-y-auto px-4 rounded-xl no-scrollbar">
         {messages.map((message) => (
           <div key={message.id} className="py-2 text-white">
@@ -82,7 +86,7 @@ const Chat = ({
           )}
         </button>
       </form>
-      {error && <p className="text-red-500">{error.message}</p>}
+      {error && <p className="text-red-500 px-4 pb-2">{error.message}</p>}
     </div>
   );
 };

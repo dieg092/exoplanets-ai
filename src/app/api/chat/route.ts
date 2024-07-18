@@ -19,7 +19,7 @@ interface Message {
 }
 
 const openai = createOpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.API_OPENAI_KEY,
   compatibility: "strict", // Otras configuraciones personalizadas
 });
 

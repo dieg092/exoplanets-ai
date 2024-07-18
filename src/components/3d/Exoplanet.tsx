@@ -2,18 +2,27 @@ import * as THREE from "three";
 import React, { useRef, useState } from "react";
 import { useFrame, ThreeElements, useLoader } from "@react-three/fiber";
 import { TextureLoader } from "three";
+import { Side } from "three";
 
 export function Exoplanet({
-  textureName,
+  texture,
+  side = 0,
+  rotationX = 0,
+  rotationY = 0,
   ...props
-}: { textureName: string } & ThreeElements["mesh"]) {
+}: {
+  texture: string;
+  side: Side;
+  rotationX: number;
+  rotationY: number;
+} & ThreeElements["mesh"]) {
   const meshRef = useRef<THREE.Mesh>(null!);
   const [hovered, setHover] = useState(false);
   const [active, setActive] = useState(false);
-  useFrame((state, delta) => (meshRef.current.rotation.x += 0.0005));
-  useFrame((state, delta) => (meshRef.current.rotation.y += 0.0002));
+  useFrame((state, delta) => (meshRef.current.rotation.x += rotationX));
+  useFrame((state, delta) => (meshRef.current.rotation.y += rotationY));
 
-  const colorMap = useLoader(TextureLoader, `${textureName}.jpg`);
+  const colorMap = useLoader(TextureLoader, `/textures/${texture}`);
   return (
     <mesh
       {...props}
@@ -23,7 +32,7 @@ export function Exoplanet({
       onPointerOut={(event) => setHover(false)}
       userData={{ hello: "world" }}
     >
-      <meshStandardMaterial map={colorMap} />
+      <meshStandardMaterial map={colorMap} side={side} />
       <sphereGeometry args={[]} />
     </mesh>
   );

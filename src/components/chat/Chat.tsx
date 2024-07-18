@@ -28,7 +28,7 @@ const Chat = ({
     });
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputDisabled = input.length === 0 || isLoading;
+  const inputDisabled = input.trim() === "" || isLoading;
 
   useLayoutEffect(() => {
     messagesEndRef.current?.scrollIntoView({ block: "end" });
@@ -49,8 +49,14 @@ const Chat = ({
     >
       <div className="flex justify-end px-4 py-3 text-white text-lg w-full">
         <DiamondMinus
-          className="hover:cursor-pointer hover:text-slate-400 hover:transition hover:ease-in-out hover:scale-125 "
-          onClick={() => handleChatHidden()}
+          className={`${
+            !isChatHidden && "hover:cursor-pointer"
+          } hover:text-slate-400 hover:transition hover:ease-in-out hover:scale-125 `}
+          onClick={() => {
+            if (!isChatHidden) {
+              handleChatHidden();
+            }
+          }}
         />
       </div>
       <div className="flex-grow overflow-y-auto px-4 rounded-xl no-scrollbar">

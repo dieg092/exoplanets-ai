@@ -3,28 +3,14 @@ import { ollama } from "ollama-ai-provider";
 import { openai } from "@ai-sdk/openai";
 import formatExoplanets from "@/data/formatExoplanets.json";
 import { z } from "zod";
+import { filterByConfirmed, getRandomExoplanet } from "@/utils/dataActions";
 
-// Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
 
 const systemConfig = `Eres la base de datos de exoplanetas de la NASA. 
 No hables de ningún tema que no esté relacionado con exoplanetas.
 Debes responder en el idioma en el que el usuario te pregunte. 
 Se directo y asertivo.`;
-
-const filterByConfirmed = (array) => {
-  return array.filter((item) => item.archive_disposition === "CONFIRMED");
-};
-
-const getRandomExoplanet = (array) => {
-  const confirmedExoplanets = filterByConfirmed(array);
-  if (confirmedExoplanets.length === 0) {
-    return null;
-  }
-
-  const randomIndex = Math.floor(Math.random() * confirmedExoplanets.length);
-  return confirmedExoplanets[randomIndex];
-};
 
 interface Message {
   role: "user" | "assistant";

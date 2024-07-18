@@ -16,6 +16,24 @@ export type JsonApi = {
   koi_pdisposition: string;
 };
 
+export type ExoplanetType = {
+  id: number;
+  host_star: string | null;
+  name: string | null;
+  archive_disposition: string;
+  period: number | null;
+  rad: number | null;
+  orbit: number | null;
+  eq_temp: number | null;
+  star_distance: number | null;
+  number_planets: number | null;
+  stellar_temp: number | null;
+  surface_gravity: number | null;
+  stellar_rad: number | null;
+  stellar_mass: number | null;
+  disposition: string;
+};
+
 export type OldKeys =
   | "kepid"
   | "kepler_name"

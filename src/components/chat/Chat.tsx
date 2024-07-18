@@ -45,7 +45,7 @@ const Chat = ({
     <div
       className={`${
         isChatHidden ? "opacity-0 z-10" : "opacity-100 z-50"
-      } transition-opacity duration-700 absolute flex flex-col top-1/2 left-[82%] transform -translate-x-1/2 -translate-y-1/2 w-1/3 h-5/6 bg-neutral-900 bg-opacity-20 backdrop-blur-lg rounded-xl shadow-xl border border-white border-opacity-20`}
+      } transition-opacity duration-700 absolute flex flex-col top-1/2 md:left-[82%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 md:w-1/3 w-2/3 h-5/6 bg-neutral-900 bg-opacity-20 backdrop-blur-lg rounded-xl shadow-xl border border-white border-opacity-20`}
     >
       <div className="flex justify-end px-4 py-3 text-white text-lg w-full">
         <DiamondMinus
@@ -61,12 +61,16 @@ const Chat = ({
       </div>
       <div className="flex-grow overflow-y-auto px-4 rounded-xl no-scrollbar">
         {messages.map((message) => (
-          <div key={message.id} className="py-2 text-white">
-            <p className="font-bold">
-              {message.role === "user" ? "User: " : "AI: "}
-            </p>
-            <p className="font-regular">{message.content}</p>
-          </div>
+          <>
+            {message.content.length > 0 && (
+              <div key={message.id} className="py-2 text-white">
+                <p className="font-bold">
+                  {message.role === "user" ? "User: " : "AI: "}
+                </p>
+                <p className="font-regular">{message.content}</p>
+              </div>
+            )}
+          </>
         ))}
         <div ref={messagesEndRef} />
       </div>

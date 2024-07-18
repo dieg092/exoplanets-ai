@@ -1,6 +1,6 @@
 import { convertToCoreMessages, streamText, tool, ToolInvocation } from "ai";
 import { ollama } from "ollama-ai-provider";
-import { openai } from "@ai-sdk/openai";
+import { createOpenAI } from "@ai-sdk/openai";
 import formatExoplanets from "@/data/formatExoplanets.json";
 import { z } from "zod";
 import { filterByConfirmed, getRandomExoplanet } from "@/utils/dataActions";
@@ -17,6 +17,11 @@ interface Message {
   content: string;
   toolInvocations?: ToolInvocation[];
 }
+
+const openai = createOpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+  compatibility: "strict", // Otras configuraciones personalizadas
+});
 
 export async function POST(req: Request) {
   const { messages }: { messages: Message[] } = await req.json();

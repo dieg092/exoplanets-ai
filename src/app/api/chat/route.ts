@@ -13,8 +13,17 @@ Debes responder en el idioma en el que el usuario te pregunte.
 Se directo y asertivo.`;
 
 const filterByConfirmed = (array) => {
-  return array.filter((item) => item.archive_disposition === "CONFIRMED")
-    .length;
+  return array.filter((item) => item.archive_disposition === "CONFIRMED");
+};
+
+const getRandomExoplanet = (array) => {
+  const confirmedExoplanets = filterByConfirmed(array);
+  if (confirmedExoplanets.length === 0) {
+    return null;
+  }
+
+  const randomIndex = Math.floor(Math.random() * confirmedExoplanets.length);
+  return confirmedExoplanets[randomIndex];
 };
 
 interface Message {
@@ -37,7 +46,15 @@ export async function POST(req: Request) {
         description: "Muestra el total de exoplanetas confirmados por la NASA",
         parameters: z.object({}),
         execute: async () => {
-          return filterByConfirmed(formatExoplanets);
+          return filterByConfirmed(formatExoplanets).length;
+        },
+      }),
+      exoplanet_random: tool({
+        description:
+          "Muestra un exoplaneta random de la base de datos de la NASA",
+        parameters: z.object({}),
+        execute: async () => {
+          return getRandomExoplanet(formatExoplanets);
         },
       }),
     },

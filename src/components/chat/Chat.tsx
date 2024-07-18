@@ -29,6 +29,7 @@ const Chat = ({
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputDisabled = input.trim() === "" || isLoading;
+  const conversation = messages.filter((message) => !message.toolInvocations);
 
   useLayoutEffect(() => {
     messagesEndRef.current?.scrollIntoView({ block: "end" });
@@ -60,17 +61,13 @@ const Chat = ({
         />
       </div>
       <div className="flex-grow overflow-y-auto px-4 rounded-xl no-scrollbar">
-        {messages.map((message) => (
-          <>
-            {message.content.length > 0 && (
-              <div key={message.id} className="py-2 text-white">
-                <p className="font-bold">
-                  {message.role === "user" ? "User: " : "AI: "}
-                </p>
-                <p className="font-regular">{message.content}</p>
-              </div>
-            )}
-          </>
+        {conversation.map((message) => (
+          <div key={message.id} className="py-2 text-white">
+            <p className="font-bold">
+              {message.role === "user" ? "User: " : "AI: "}
+            </p>
+            <p className="font-regular">{message.content}</p>
+          </div>
         ))}
         <div ref={messagesEndRef} />
       </div>

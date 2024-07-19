@@ -5,12 +5,13 @@ import { useEffect, useRef } from "react";
 import { useControls, button, folder } from "leva";
 import { calculateCameraDistance } from "@/utils/calculateCameraDistance";
 import { useChatStore } from "@/store/chat";
+import { calculateRotationVelocity } from "@/utils/calculateRotationVelocity";
 
 export const Scene = () => {
   const EXOPLANETSCALE = 2;
   const cameraControlsRef = useRef<any>(null);
   const { sceneData } = useChatStore();
-  console.log(sceneData);
+
   useEffect(() => {
     const distanceZ = calculateCameraDistance(EXOPLANETSCALE);
     // put camera on target mesh and position
@@ -20,6 +21,20 @@ export const Scene = () => {
       true
     );
   }, []);
+
+  useEffect(() => {
+    if (sceneData !== undefined) {
+      console.log(sceneData);
+
+      const distanceZ = calculateCameraDistance(sceneData.rad);
+      // put camera on target mesh and position
+      cameraControlsRef.current?.setLookAt(
+        ...[0, 0, distanceZ],
+        ...[0, 0, 0],
+        true
+      );
+    }
+  }, [sceneData]);
 
   // Floating window - comment this disabled
   useControls({
@@ -57,16 +72,25 @@ export const Scene = () => {
       />
       <directionalLight color="red" position={[0, 0, 5]} intensity={0.1} />
       <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
-
-      {/* Exoplanet */}
-      <Exoplanet
-        rotationX={0}
-        rotationY={0.0005}
-        position={[0, 0, 0]}
-        scale={EXOPLANETSCALE}
-        texture="/exoplanets/earth.jpg"
-        side={0}
-      />
+      {sceneData !== undefined ? (
+        <Exoplanet
+          rotationX={0}
+          rotationY={calculateRotationVelocity(sceneData.period)}
+          position={[0, 0, 0]}
+          scale={sceneData.rad}
+          texture="/exoplanets/earth.jpg"
+          side={0}
+        />
+      ) : (
+        <Exoplanet
+          rotationX={0}
+          rotationY={0.0005}
+          position={[0, 0, 0]}
+          scale={2}
+          texture="/exoplanets/earth.jpg"
+          side={0}
+        />
+      )}
 
       {/* Universe */}
       <Exoplanet

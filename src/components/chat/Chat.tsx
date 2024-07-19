@@ -16,7 +16,7 @@ const initialMessages: Message[] = [
 
 const Chat = () => {
   const setIsChatHidden = useChatStore((store) => store.setIsChatHidden);
-
+  const setSceneData = useChatStore((state) => state.setSceneData);
   const { messages, input, isLoading, error, handleInputChange, handleSubmit } =
     useChat({
       api: "api/chat",
@@ -28,6 +28,25 @@ const Chat = () => {
   const inputDisabled = input.trim() === "" || isLoading;
   const conversation = messages.filter((message) => !message.toolInvocations);
 
+  const sceneData = (() => {
+    const lastMessage = messages.findLast((message) =>
+      message.toolInvocations?.some(
+        (invocation) => invocation.result?.updateScene === true
+      )
+    );
+
+    if (lastMessage) {
+      const invocation = lastMessage.toolInvocations?.find(
+        (invocation) => invocation.result?.updateScene === true
+      );
+      return invocation?.result?.data;
+    }
+
+    return undefined;
+  })();
+
+  setSceneData(sceneData);
+
   useLayoutEffect(() => {
     messagesEndRef.current?.scrollIntoView({ block: "end" });
   });
@@ -38,10 +57,6 @@ const Chat = () => {
       !inputDisabled && handleSubmit(e);
     }
   };
-
-  useEffect(() => {
-    console.log(messages);
-  }, [messages]);
 
   return (
     <motion.div

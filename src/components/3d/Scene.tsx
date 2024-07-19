@@ -4,11 +4,13 @@ import { Exoplanet } from "@/components/3d/Exoplanet";
 import { useEffect, useRef } from "react";
 import { useControls, button, folder } from "leva";
 import { calculateCameraDistance } from "@/utils/calculateCameraDistance";
+import { useChatStore } from "@/store/chat";
 
 export const Scene = () => {
   const EXOPLANETSCALE = 2;
   const cameraControlsRef = useRef<any>(null);
-
+  const { sceneData } = useChatStore();
+  console.log(sceneData);
   useEffect(() => {
     const distanceZ = calculateCameraDistance(EXOPLANETSCALE);
     // put camera on target mesh and position

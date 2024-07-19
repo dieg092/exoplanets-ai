@@ -70,5 +70,7 @@ export type NewKeys =
 // Chat
 export type ChatStoreType = {
   isChatHidden: boolean;
+  sceneData?: ExoplanetType;
   setIsChatHidden: (boolean) => void;
+  setSceneData: (ExoplanetType) => void;
 };

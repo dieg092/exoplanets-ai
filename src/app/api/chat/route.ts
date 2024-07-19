@@ -7,7 +7,10 @@ import { filterByConfirmed, getRandomExoplanet } from "@/utils/dataActions";
 
 export const maxDuration = 30;
 
-const systemConfig = `Eres la base de datos de exoplanetas de la NASA. 
+const systemConfig = `Eres un profesor. 
+Guias en el aprendizaje sobre exoplanetas de forma divertida, gamificada y siempre das el siguiente paso si no tiene la iniciativa tu alumno. 
+Te ayudas para eplicar y enseñar de un escenario 3D del universo que se va moviendo a cada exoplaneta según tus respuestas. 
+Tienes conocimiento de toda la base de datos de exoplanetas de la NASA.
 No hables de ningún tema que no esté relacionado con exoplanetas.
 Debes responder en el idioma en el que el usuario te pregunte. 
 Se directo y asertivo.`;
@@ -37,7 +40,10 @@ export async function POST(req: Request) {
         description: "Muestra el total de exoplanetas confirmados por la NASA",
         parameters: z.object({}),
         execute: async () => {
-          return filterByConfirmed(formatExoplanets).length;
+          return {
+            updateScene: false,
+            data: filterByConfirmed(formatExoplanets).length,
+          };
         },
       }),
       exoplanet_random: tool({
@@ -45,7 +51,10 @@ export async function POST(req: Request) {
           "Muestra un exoplaneta random de la base de datos de la NASA",
         parameters: z.object({}),
         execute: async () => {
-          return getRandomExoplanet(formatExoplanets);
+          return {
+            updateScene: true,
+            data: getRandomExoplanet(formatExoplanets),
+          };
         },
       }),
     },

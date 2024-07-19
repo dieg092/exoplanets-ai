@@ -25,9 +25,7 @@ export const Scene = () => {
 
   useEffect(() => {
     if (sceneData !== undefined) {
-      console.log(sceneData);
-
-      const distanceZ = calculateCameraDistance(sceneData.rad);
+      const distanceZ = calculateCameraDistance(sceneData.rad ?? 2);
       // put camera on target mesh and position
       cameraControlsRef.current?.setLookAt(
         ...[0, 0, distanceZ],
@@ -74,31 +72,50 @@ export const Scene = () => {
       <directionalLight color="red" position={[0, 0, 5]} intensity={0.1} />
       <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
       {sceneData !== undefined ? (
-        <Exoplanet
-          rotationX={0}
-          rotationY={calculateRotationVelocity(sceneData.period)}
-          position={[0, 0, 0]}
-          scale={sceneData.rad}
-          texture={
-            sceneData?.texture
-              ? `${IMAGE_EXOPLANET_PATH}/${sceneData.texture}`
-              : `${IMAGE_TEXTURE_PATH}tierra.jpg`
-          }
-          side={0}
-        />
+        <>
+          {/* Exoplanet */}
+          <Exoplanet
+            inclination={[0, 0, sceneData.inclination ?? 0]}
+            rotationX={0}
+            rotationY={calculateRotationVelocity(sceneData.period ?? 0)}
+            position={[0, 0, 0]}
+            scale={sceneData.rad ?? 2}
+            texture={
+              sceneData?.texture
+                ? `${IMAGE_EXOPLANET_PATH}/${sceneData.texture}`
+                : `${IMAGE_TEXTURE_PATH}tierra.jpg`
+            }
+            side={0}
+          />
+
+          {/* Star */}
+          <Exoplanet
+            inclination={[0, 0, 0]}
+            rotationX={0}
+            rotationY={0.0005}
+            position={[0, 0, -500]}
+            scale={90}
+            texture={`${IMAGE_EXOPLANET_PATH}/sol.jpg`}
+            side={0}
+          />
+        </>
       ) : (
-        <Exoplanet
-          rotationX={0}
-          rotationY={0.0005}
-          position={[0, 0, 0]}
-          scale={EXOPLANETSCALE}
-          texture={`${IMAGE_TEXTURE_PATH}tierra.jpg`}
-          side={0}
-        />
+        <>
+          <Exoplanet
+            inclination={[0, 0, 0]}
+            rotationX={0}
+            rotationY={0.0005}
+            position={[0, 0, 0]}
+            scale={EXOPLANETSCALE}
+            texture={`${IMAGE_TEXTURE_PATH}tierra.jpg`}
+            side={0}
+          />
+        </>
       )}
 
       {/* Universe */}
       <Exoplanet
+        inclination={[0, 0, 0]}
         rotationX={0.00005}
         rotationY={0.00005}
         position={[0, 0, 0]}

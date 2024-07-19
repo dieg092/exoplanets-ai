@@ -66,10 +66,23 @@ export async function POST(req: Request) {
           "Muestra el exoplaneta solicitado por el usuario buscandolo por el nombre en la base de datos de la NASA",
         parameters: z.object({ exoplanet_name: z.string() }),
         execute: async ({ exoplanet_name }) => {
-          return {
-            updateScene: true,
-            data: findExoplanet(formatExoplanetsTexture, exoplanet_name),
-          };
+          const exoplanet = findExoplanet(
+            formatExoplanetsTexture,
+            exoplanet_name
+          );
+
+          if (exoplanet !== null) {
+            return {
+              updateScene: true,
+              data: exoplanet,
+            };
+          } else {
+            // Exoplanet not found
+            return {
+              updateScene: false,
+              data: null,
+            };
+          }
         },
       }),
     },

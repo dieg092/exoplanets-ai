@@ -22,7 +22,7 @@ export function Exoplanet({
   useFrame((state, delta) => (meshRef.current.rotation.x += rotationX));
   useFrame((state, delta) => (meshRef.current.rotation.y += rotationY));
 
-  const colorMap = useLoader(TextureLoader, `/textures/${texture}`);
+  const colorMap = useLoader(TextureLoader, texture);
   return (
     <mesh
       {...props}

@@ -6,6 +6,7 @@ import { useControls, button, folder } from "leva";
 import { calculateCameraDistance } from "@/utils/calculateCameraDistance";
 import { useChatStore } from "@/store/chat";
 import { calculateRotationVelocity } from "@/utils/calculateRotationVelocity";
+import { IMAGE_EXOPLANET_PATH, IMAGE_TEXTURE_PATH } from "@/config";
 
 export const Scene = () => {
   const EXOPLANETSCALE = 2;
@@ -78,7 +79,11 @@ export const Scene = () => {
           rotationY={calculateRotationVelocity(sceneData.period)}
           position={[0, 0, 0]}
           scale={sceneData.rad}
-          texture="/exoplanets/earth.jpg"
+          texture={
+            sceneData?.texture
+              ? `${IMAGE_EXOPLANET_PATH}/${sceneData.texture}`
+              : `${IMAGE_TEXTURE_PATH}tierra.jpg`
+          }
           side={0}
         />
       ) : (
@@ -86,8 +91,8 @@ export const Scene = () => {
           rotationX={0}
           rotationY={0.0005}
           position={[0, 0, 0]}
-          scale={2}
-          texture="/exoplanets/earth.jpg"
+          scale={EXOPLANETSCALE}
+          texture={`${IMAGE_TEXTURE_PATH}tierra.jpg`}
           side={0}
         />
       )}
@@ -98,7 +103,7 @@ export const Scene = () => {
         rotationY={0.00005}
         position={[0, 0, 0]}
         scale={600}
-        texture="/universe.jpg"
+        texture={`${IMAGE_TEXTURE_PATH}universo.jpg`}
         side={1}
       />
     </>

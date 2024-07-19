@@ -1,9 +1,13 @@
 import { convertToCoreMessages, streamText, tool, ToolInvocation } from "ai";
 import { ollama } from "ollama-ai-provider";
 import { createOpenAI } from "@ai-sdk/openai";
-import formatExoplanets from "@/data/formatExoplanets.json";
+import formatExoplanetsTexture from "@/data/formatExoplanetsTexture.json";
 import { z } from "zod";
-import { filterByConfirmed, getRandomExoplanet } from "@/utils/dataActions";
+import {
+  filterByConfirmed,
+  findExoplanet,
+  getRandomExoplanet,
+} from "@/utils/dataActions";
 
 export const maxDuration = 30;
 
@@ -42,7 +46,7 @@ export async function POST(req: Request) {
         execute: async () => {
           return {
             updateScene: false,
-            data: filterByConfirmed(formatExoplanets).length,
+            data: filterByConfirmed(formatExoplanetsTexture).length,
           };
         },
       }),
@@ -53,7 +57,18 @@ export async function POST(req: Request) {
         execute: async () => {
           return {
             updateScene: true,
-            data: getRandomExoplanet(formatExoplanets),
+            data: getRandomExoplanet(formatExoplanetsTexture),
+          };
+        },
+      }),
+      exoplanet_find: tool({
+        description:
+          "Muestra el exoplaneta solicitado por el usuario buscandolo por el nombre en la base de datos de la NASA",
+        parameters: z.object({ exoplanet_name: z.string() }),
+        execute: async ({ exoplanet_name }) => {
+          return {
+            updateScene: true,
+            data: findExoplanet(formatExoplanetsTexture, exoplanet_name),
           };
         },
       }),

@@ -1,4 +1,5 @@
-import type { JsonApi, OldKeys, NewKeys } from "@/definition";
+import type { JsonApi, OldKeys, NewKeys, ExoplanetTexture } from "@/definition";
+import { assignTexture } from "./assignTexture";
 
 const newObjectFields: Record<OldKeys, NewKeys> = {
   kepid: "id",
@@ -39,6 +40,13 @@ export const formatJson = (json: Array<JsonApi>) => {
       formattedObject.host_star = jsonObject.kepler_name?.split(" ")[0] ?? null;
     });
 
+    const dataToTexture: ExoplanetTexture = {
+      eq_temp: jsonObject.koi_teq,
+      rad: jsonObject.koi_prad,
+      star_distance: jsonObject.koi_dor,
+    };
+
+    formattedObject.texture = assignTexture(dataToTexture);
     return formattedObject;
   });
 };

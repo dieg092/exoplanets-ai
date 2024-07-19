@@ -13,3 +13,18 @@ export const getRandomExoplanet = (array: ExoplanetType[]) => {
   const randomIndex = Math.floor(Math.random() * confirmedExoplanets.length);
   return confirmedExoplanets[randomIndex];
 };
+
+export const findExoplanet = (
+  array: ExoplanetType[],
+  exoplanet_name: string
+) => {
+  const exoplanet = array.find(
+    (exoplanet) => exoplanet.name === exoplanet_name
+  );
+
+  if (!exoplanet) {
+    return null;
+  }
+
+  return exoplanet;
+};

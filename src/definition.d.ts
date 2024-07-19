@@ -32,7 +32,28 @@ export type ExoplanetType = {
   stellar_rad: number | null;
   stellar_mass: number | null;
   disposition: string;
+  texture: string;
 };
+
+export type ExoplanetTexture = {
+  eq_temp: number | null;
+  rad: number | null;
+  star_distance: number | null;
+};
+
+export type Texture =
+  | "co2_acidosulfurico.jpg"
+  | "helio_amoniaco.jpg"
+  | "helio_amoniaco_nublina.jpg"
+  | "hidrogeno_metano_nieblina.jpg"
+  | "hidrogeno_metano.jpg"
+  | "hielo_silicatos.jpg"
+  | "silicatos_regolito.jpg"
+  | "hematita_arenisca.jpg"
+  | "basalto_regolito.jpg"
+  | "basalto_anortosita.jpg"
+  | "nuves.jpg"
+  | "basalto_riolita.jpg";
 
 export type OldKeys =
   | "kepid"
@@ -64,7 +85,8 @@ export type NewKeys =
   | "stellar_temp"
   | "surface_gravity"
   | "stellar_rad"
-  | "stellar_mass";
+  | "stellar_mass"
+  | "texture";
 
 // zustand
 // Chat

@@ -1,0 +1,14 @@
+kepid = Kepler Identification or KepID
+name = Kepler Name
+archive_disposition = Exoplanet Archive Disposition
+disposition = Exoplanet Archive Disposition
+eq_temp = Equilibrium Temperature (Kelvin)
+rad = Planetary Radius (Earth radii)
+star_distance = Planet-Star Distance over Star Radius
+number_planets = Number of Planets
+period = Orbital Period (days)
+host_star = Kepler Star Name
+stellar_temp = Stellar Effective Temperature (Kelvin)
+surface_gravity = Stellar Surface Gravity log10(cm s-2)
+stellar_rad = Stellar Radius (solar radii)
+stellar_mass = Stellar Mass (solar mass)

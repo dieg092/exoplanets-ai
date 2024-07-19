@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { useControls, button, folder } from "leva";
 import { calculateCameraDistance } from "@/utils/calculateCameraDistance";
 import { useChatStore } from "@/store/chat";
+import { IMAGE_EXOPLANET_PATH, IMAGE_TEXTURE_PATH } from "@/config";
 
 export const Scene = () => {
   const EXOPLANETSCALE = 2;
@@ -20,7 +21,7 @@ export const Scene = () => {
       true
     );
   }, []);
-
+  console.log(sceneData);
   // Floating window - comment this disabled
   useControls({
     setLookAt: folder(
@@ -64,7 +65,11 @@ export const Scene = () => {
         rotationY={0.0005}
         position={[0, 0, 0]}
         scale={EXOPLANETSCALE}
-        texture="/exoplanets/earth.jpg"
+        texture={
+          sceneData?.texture
+            ? `${IMAGE_EXOPLANET_PATH}/${sceneData?.texture}`
+            : `${IMAGE_TEXTURE_PATH}tierra.jpg`
+        }
         side={0}
       />
 
@@ -74,7 +79,7 @@ export const Scene = () => {
         rotationY={0.00005}
         position={[0, 0, 0]}
         scale={600}
-        texture="/universe.jpg"
+        texture={`${IMAGE_TEXTURE_PATH}/universe.jpg`}
         side={1}
       />
     </>

@@ -1,8 +1,10 @@
-export const filterByConfirmed = (array) => {
+import type { ExoplanetType } from "@/definition";
+
+export const filterByConfirmed = (array: ExoplanetType[]) => {
   return array.filter((item) => item.archive_disposition === "CONFIRMED");
 };
 
-export const getRandomExoplanet = (array) => {
+export const getRandomExoplanet = (array: ExoplanetType[]) => {
   const confirmedExoplanets = filterByConfirmed(array);
   if (confirmedExoplanets.length === 0) {
     return null;

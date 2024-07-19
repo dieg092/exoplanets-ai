@@ -65,3 +65,10 @@ export type NewKeys =
   | "surface_gravity"
   | "stellar_rad"
   | "stellar_mass";
+
+// zustand
+// Chat
+export type ChatStoreType = {
+  isChatHidden: boolean;
+  setIsChatHidden: (boolean) => void;
+};

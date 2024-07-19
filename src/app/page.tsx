@@ -5,7 +5,7 @@ import { Canvas } from "@react-three/fiber";
 
 const Page = () => {
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-screen overflow-hidden">
       <Canvas className="bg-black w-full h-full">
         <Scene />
       </Canvas>

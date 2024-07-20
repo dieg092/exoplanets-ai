@@ -62,6 +62,8 @@ export const Scene = () => {
         ref={cameraControlsRef}
       />
       <ambientLight intensity={Math.PI / 2} />
+      <ambientLight intensity={0.5} />
+
       <spotLight
         position={[10, 10, 10]}
         angle={0.15}

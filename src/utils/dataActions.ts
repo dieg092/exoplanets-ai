@@ -14,13 +14,24 @@ export const getRandomExoplanet = (array: ExoplanetType[]) => {
   return confirmedExoplanets[randomIndex];
 };
 
+const nameFormat = (name: string) => {
+  return name.toString().replaceAll(/[\s\-\_\.]/g, "");
+};
+
 export const findExoplanet = (
   array: ExoplanetType[],
   exoplanet_name: string
 ) => {
-  const exoplanet = array.find(
-    (exoplanet) => exoplanet.name === exoplanet_name
-  );
+  exoplanet_name = nameFormat(exoplanet_name);
+  const exoplanet = array.find((exoplanet) => {
+    const exoplanet_name_trim = exoplanet.name
+      ? nameFormat(exoplanet.name)
+      : null;
+
+    if (exoplanet_name === exoplanet_name_trim) {
+      return exoplanet_name_trim;
+    }
+  });
 
   if (!exoplanet) {
     return null;

@@ -62,7 +62,7 @@ const Chat = () => {
   if (isChatHidden) {
     return null;
   }
-
+  console.log(messages);
   return (
     <motion.div
       initial={{ opacity: 0 }}

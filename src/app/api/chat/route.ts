@@ -80,7 +80,7 @@ export async function POST(req: Request) {
             // Exoplanet not found
             return {
               updateScene: false,
-              data: null,
+              data: "null",
             };
           }
         },

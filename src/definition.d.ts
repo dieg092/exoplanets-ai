@@ -14,6 +14,7 @@ export type JsonApi = {
   koi_srad: number | null;
   koi_smass: number | null;
   koi_pdisposition: string;
+  koi_incl: number | null;
 };
 
 export type ExoplanetType = {
@@ -33,6 +34,7 @@ export type ExoplanetType = {
   stellar_mass: number | null;
   disposition: string;
   texture: string;
+  inclination: number | null;
 };
 
 export type ExoplanetTexture = {
@@ -69,7 +71,8 @@ export type OldKeys =
   | "koi_slogg"
   | "koi_srad"
   | "koi_smass"
-  | "koi_pdisposition";
+  | "koi_pdisposition"
+  | "koi_incl";
 
 export type NewKeys =
   | "id"
@@ -86,7 +89,8 @@ export type NewKeys =
   | "surface_gravity"
   | "stellar_rad"
   | "stellar_mass"
-  | "texture";
+  | "texture"
+  | "inclination";
 
 // zustand
 // Chat

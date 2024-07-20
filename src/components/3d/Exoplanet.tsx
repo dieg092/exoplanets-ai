@@ -6,11 +6,13 @@ import { Side } from "three";
 
 export function Exoplanet({
   texture,
+  inclination,
   side = 0,
   rotationX = 0,
   rotationY = 0,
   ...props
 }: {
+  inclination: [number, number, number];
   texture: string;
   side: Side;
   rotationX: number;
@@ -25,6 +27,7 @@ export function Exoplanet({
   const colorMap = useLoader(TextureLoader, texture);
   return (
     <mesh
+      rotation={inclination}
       {...props}
       ref={meshRef}
       onClick={(event) => setActive(!active)}

@@ -1,8 +1,7 @@
-const daysToSeconds = (days: number) => days * 24 * 3600;
-
 export const calculateRotationVelocity = (rotationPeriodDays: number) => {
-  const rotationPeriodSeconds = daysToSeconds(rotationPeriodDays); // Convertir el periodo de rotación a segundos
-  const velocity = 360 / rotationPeriodSeconds; // Velocidad angular en grados por segundo
-  console.log(velocity);
-  return velocity;
+  const degreesPerDay = 360 / rotationPeriodDays; // 360 / 172800 ≈ 0.0020833 grados por segundo
+  const degreesPerSecond = degreesPerDay / 86400; // 86400 segundos en un día
+  const radiansPerSecond = degreesPerSecond * (Math.PI / 180); // convertir a radianes
+
+  return radiansPerSecond;
 };

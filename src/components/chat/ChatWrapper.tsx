@@ -4,7 +4,9 @@ import Chat from "./Chat";
 import { ChatIcon } from "./ChatIcon";
 
 export const ChatWrapper = () => {
-  const isChatHidden = useChatStore((store) => store.isChatHidden);
-
-  return <>{isChatHidden ? <ChatIcon /> : <Chat />}</>;
+  return (
+    <>
+      <ChatIcon /> <Chat />
+    </>
+  );
 };

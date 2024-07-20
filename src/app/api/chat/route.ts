@@ -63,7 +63,7 @@ export async function POST(req: Request) {
       }),
       exoplanet_find: tool({
         description:
-          "Muestra el exoplaneta solicitado por el usuario buscandolo por el nombre en la base de datos de la NASA",
+          "Muestra el exoplaneta si el usuario introduce un nombre de un exoplaneta",
         parameters: z.object({ exoplanet_name: z.string() }),
         execute: async ({ exoplanet_name }) => {
           const exoplanet = findExoplanet(

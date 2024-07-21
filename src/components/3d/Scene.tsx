@@ -9,6 +9,7 @@ import { calculateRotationVelocity } from "@/utils/calculateRotationVelocity";
 import { IMAGE_EXOPLANET_PATH, IMAGE_TEXTURE_PATH } from "@/config";
 import { calculateRadius } from "@/utils/calculateRadius";
 import { calculateStarDistance } from "@/utils/calculateStarDistance";
+import Helpers from "@/components/3d/Helpers";
 
 export const Scene = () => {
   const EARTH_ROTATION_DAYS = 365;
@@ -17,25 +18,30 @@ export const Scene = () => {
   const cameraControlsRef = useRef<any>(null);
   const { sceneData } = useChatStore();
 
-  useEffect(() => {
-    const distanceZ = calculateCameraDistance(calculateRadius(1, EARTH_RADIUS));
+  useEffect(() => { 
+    const distanceCametaToExoplanet = calculateCameraDistance(calculateRadius(1, EARTH_RADIUS));
+    
     // put camera on target mesh and position
     cameraControlsRef.current?.setLookAt(
-      ...[0, 0, distanceZ],
-      ...[0, 0, 0],
+      ...[0, 0, calculateStarDistance(5) + distanceCametaToExoplanet], //position
+      ...[0, 0, calculateStarDistance(5)], //target
       true
     );
   }, []);
 
   useEffect(() => {
     if (sceneData !== undefined) {
-      const distanceZ = calculateCameraDistance(
+      console.log('stellar radius: ', calculateRadius(sceneData.stellar_rad ?? 1, SOLAR_RADIUS));
+      console.log('exoplanet radius:', calculateRadius(sceneData.rad ?? 1, EARTH_RADIUS));
+      
+      
+      const distanceCametaToExoplanet = calculateCameraDistance(
         calculateRadius(sceneData?.rad ?? 1, EARTH_RADIUS)
       );
       // put camera on target mesh and position
       cameraControlsRef.current?.setLookAt(
-        ...[0, 0, distanceZ],
-        ...[0, 0, 0],
+       ...[0, 0, calculateStarDistance(sceneData.star_distance ?? 5) + distanceCametaToExoplanet], //position
+      ...[0, 0, calculateStarDistance(sceneData.star_distance ?? 5)], //target
         true
       );
     }
@@ -45,8 +51,8 @@ export const Scene = () => {
   useControls({
     setLookAt: folder(
       {
-        vec4: { value: [1, 2, 3], label: "position" },
-        vec5: { value: [1, 1, 0], label: "target" },
+        vec4: { value: [0, 0, 0], label: "position" },
+        vec5: { value: [0, 0, 0], label: "target" },
         "setLookAt(…position, …target)": button((get) =>
           cameraControlsRef.current?.setLookAt(
             ...get("setLookAt.vec4"),
@@ -62,6 +68,7 @@ export const Scene = () => {
 
   return (
     <>
+      <Helpers />
       <CameraControls
         minDistance={calculateCameraDistance(
           calculateRadius(sceneData?.rad ?? 1, EARTH_RADIUS)
@@ -88,7 +95,7 @@ export const Scene = () => {
             inclination={[0, 0, sceneData.inclination ?? 0]}
             rotationX={0}
             rotationY={calculateRotationVelocity(sceneData.period ?? 0)}
-            position={[0, 0, 0]}
+            position={[0, 0, calculateStarDistance(sceneData.star_distance ?? 5)]}
             scale={calculateRadius(sceneData.rad ?? 1, EARTH_RADIUS)}
             texture={
               sceneData?.texture
@@ -106,7 +113,7 @@ export const Scene = () => {
             position={[
               0,
               0,
-              -calculateStarDistance(sceneData.star_distance ?? 100),
+              0,
             ]}
             scale={calculateRadius(sceneData.stellar_rad ?? 1, SOLAR_RADIUS)}
             texture={`${IMAGE_EXOPLANET_PATH}/sol.jpg`}
@@ -120,7 +127,7 @@ export const Scene = () => {
             inclination={[0, 0, 0]}
             rotationX={0}
             rotationY={calculateRotationVelocity(EARTH_ROTATION_DAYS)}
-            position={[0, 0, 0]}
+            position={[0, 0, calculateStarDistance(5)]}
             scale={calculateRadius(1, EARTH_RADIUS)}
             texture={`${IMAGE_TEXTURE_PATH}tierra.jpg`}
             side={0}
@@ -131,7 +138,7 @@ export const Scene = () => {
             inclination={[0, 0, 0]}
             rotationX={0}
             rotationY={0.0005}
-            position={[0, 0, -5000]}
+            position={[0, 0, 0]}
             scale={calculateRadius(1, SOLAR_RADIUS)}
             texture={`${IMAGE_EXOPLANET_PATH}/sol.jpg`}
             side={0}

@@ -6,7 +6,12 @@ import { Canvas } from "@react-three/fiber";
 const Page = () => {
   return (
     <div className="w-full h-screen overflow-hidden">
-      <Canvas className="bg-black w-full h-full">
+      <Canvas
+        className="bg-black w-full h-full"
+        camera={{
+          far: 1000000,
+        }}
+      >
         <Scene />
       </Canvas>
       <ChatWrapper />

@@ -76,20 +76,10 @@ export const Scene = () => {
         maxDistance={90000}
         ref={cameraControlsRef}
       />
-      <ambientLight intensity={Math.PI / 2} />
-      <ambientLight intensity={0.5} />
-
-      <spotLight
-        position={[10, 10, 10]}
-        angle={0.15}
-        penumbra={1}
-        decay={0}
-        intensity={Math.PI}
-      />
-      <directionalLight color="red" position={[0, 0, 5]} intensity={0.1} />
-      <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
+      <pointLight position={[0, 0, 0]} decay={0} intensity={Math.PI} />
       {sceneData !== undefined ? (
         <>
+
           {/* Exoplanet */}
           <Exoplanet
             inclination={[0, 0, sceneData.inclination ?? 0]}
@@ -107,6 +97,7 @@ export const Scene = () => {
 
           {/* Star */}
           <Exoplanet
+          type='STAR'
             inclination={[0, 0, 0]}
             rotationX={0}
             rotationY={0.0005}
@@ -135,6 +126,7 @@ export const Scene = () => {
 
           {/* Sun */}
           <Exoplanet
+          type="STAR"
             inclination={[0, 0, 0]}
             rotationX={0}
             rotationY={0.0005}

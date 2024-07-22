@@ -10,6 +10,7 @@ export function Exoplanet({
   side = 0,
   rotationX = 0,
   rotationY = 0,
+  type,
   ...props
 }: {
   inclination: [number, number, number];
@@ -17,6 +18,7 @@ export function Exoplanet({
   side: Side;
   rotationX: number;
   rotationY: number;
+  type?: 'STAR'
 } & ThreeElements["mesh"]) {
   const meshRef = useRef<THREE.Mesh>(null!);
   const [hovered, setHover] = useState(false);
@@ -35,7 +37,11 @@ export function Exoplanet({
       onPointerOut={(event) => setHover(false)}
       userData={{ hello: "world" }}
     >
-      <meshStandardMaterial map={colorMap} side={side} />
+      {type === 'STAR' ? (
+        <meshStandardMaterial side={side}  emissiveMap={colorMap} emissive={0xffff00} emissiveIntensity={1}/>
+      ): (
+        <meshStandardMaterial map={colorMap} side={side}/>
+      )}
       <sphereGeometry args={[]} />
     </mesh>
   );

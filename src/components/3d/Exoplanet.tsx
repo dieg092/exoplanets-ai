@@ -23,8 +23,8 @@ export function Exoplanet({
   const meshRef = useRef<THREE.Mesh>(null!);
   const [hovered, setHover] = useState(false);
   const [active, setActive] = useState(false);
-  useFrame((state, delta) => (meshRef.current.rotation.x += rotationX));
-  useFrame((state, delta) => (meshRef.current.rotation.y += rotationY));
+  useFrame((state, delta) => (meshRef.current.rotation.x += rotationX * delta));
+  useFrame((state, delta) => (meshRef.current.rotation.y += rotationY * delta));
 
   const colorMap = useLoader(TextureLoader, texture);
   return (

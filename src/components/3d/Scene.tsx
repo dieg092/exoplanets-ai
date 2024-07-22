@@ -12,7 +12,6 @@ import { calculateStarDistance } from "@/utils/calculateStarDistance";
 import Helpers from "@/components/3d/Helpers";
 
 export const Scene = () => {
-  const EARTH_ROTATION_DAYS = 365;
   const EARTH_RADIUS = 6371;
   const SOLAR_RADIUS = 695700;
   const cameraControlsRef = useRef<any>(null);
@@ -84,7 +83,7 @@ export const Scene = () => {
           <Exoplanet
             inclination={[0, 0, sceneData.inclination ?? 0]}
             rotationX={0}
-            rotationY={calculateRotationVelocity(sceneData.period ?? 0)}
+            rotationY={calculateRotationVelocity()}
             position={[0, 0, calculateStarDistance(sceneData.star_distance ?? 5)]}
             scale={calculateRadius(sceneData.rad ?? 1, EARTH_RADIUS)}
             texture={
@@ -117,7 +116,7 @@ export const Scene = () => {
           <Exoplanet
             inclination={[0, 0, 0]}
             rotationX={0}
-            rotationY={calculateRotationVelocity(EARTH_ROTATION_DAYS)}
+            rotationY={calculateRotationVelocity()}
             position={[0, 0, calculateStarDistance(5)]}
             scale={calculateRadius(1, EARTH_RADIUS)}
             texture={`${IMAGE_TEXTURE_PATH}tierra.jpg`}

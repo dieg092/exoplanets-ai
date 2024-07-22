@@ -97,6 +97,7 @@ export const Scene = () => {
 
           {/* Star */}
           <Exoplanet
+          type='STAR'
             inclination={[0, 0, 0]}
             rotationX={0}
             rotationY={0.0005}

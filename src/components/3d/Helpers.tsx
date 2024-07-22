@@ -1,10 +1,9 @@
-
 const Helpers = () => {
   return (
     <>
-        <axesHelper args={[100000]} />
+      <axesHelper args={[200000]} />
     </>
-  )
-}
+  );
+};
 
-export default Helpers
+export default Helpers;

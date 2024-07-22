@@ -12,35 +12,53 @@ import { calculateStarDistance } from "@/utils/calculateStarDistance";
 import Helpers from "@/components/3d/Helpers";
 
 export const Scene = () => {
-  const EARTH_RADIUS = 6371;
-  const SOLAR_RADIUS = 695700;
+  const UNIT = 1000;
+  const EARTH_RADIUS = 6371 / UNIT;
+  const EARTH_SOLAR_DISTANCE = 150000000 / UNIT;
+  const SOLAR_RADIUS = 695700 / UNIT;
   const cameraControlsRef = useRef<any>(null);
   const { sceneData } = useChatStore();
 
-  useEffect(() => { 
-    const distanceCametaToExoplanet = calculateCameraDistance(calculateRadius(1, EARTH_RADIUS));
-    
+  useEffect(() => {
+    const distanceCametaToExoplanet = calculateCameraDistance(
+      calculateRadius(1, EARTH_RADIUS)
+    );
+
     // put camera on target mesh and position
     cameraControlsRef.current?.setLookAt(
-      ...[0, 0, calculateStarDistance(5) + distanceCametaToExoplanet], //position
-      ...[0, 0, calculateStarDistance(5)], //target
+      ...[0, 0, EARTH_SOLAR_DISTANCE + distanceCametaToExoplanet], //position
+      ...[0, 0, EARTH_SOLAR_DISTANCE], //target
       true
     );
   }, []);
 
   useEffect(() => {
     if (sceneData !== undefined) {
-      console.log('stellar radius: ', calculateRadius(sceneData.stellar_rad ?? 1, SOLAR_RADIUS));
-      console.log('exoplanet radius:', calculateRadius(sceneData.rad ?? 1, EARTH_RADIUS));
-      
-      
+      console.log(
+        "stellar radius: ",
+        calculateRadius(sceneData.stellar_rad ?? 1, SOLAR_RADIUS)
+      );
+      console.log(
+        "exoplanet radius:",
+        calculateRadius(sceneData.rad ?? 1, EARTH_RADIUS)
+      );
+
       const distanceCametaToExoplanet = calculateCameraDistance(
         calculateRadius(sceneData?.rad ?? 1, EARTH_RADIUS)
       );
       // put camera on target mesh and position
       cameraControlsRef.current?.setLookAt(
-       ...[0, 0, calculateStarDistance(sceneData.star_distance ?? 5) + distanceCametaToExoplanet], //position
-      ...[0, 0, calculateStarDistance(sceneData.star_distance ?? 5)], //target
+        ...[
+          0,
+          0,
+          calculateStarDistance(sceneData.orbit ?? EARTH_SOLAR_DISTANCE, UNIT) +
+            distanceCametaToExoplanet,
+        ], //position
+        ...[
+          0,
+          0,
+          calculateStarDistance(sceneData.orbit ?? EARTH_SOLAR_DISTANCE, UNIT),
+        ], //target
         true
       );
     }
@@ -72,19 +90,25 @@ export const Scene = () => {
         minDistance={calculateCameraDistance(
           calculateRadius(sceneData?.rad ?? 1, EARTH_RADIUS)
         )}
-        maxDistance={90000}
+        maxDistance={150000}
         ref={cameraControlsRef}
       />
       <pointLight position={[0, 0, 0]} decay={0} intensity={Math.PI} />
       {sceneData !== undefined ? (
         <>
-
           {/* Exoplanet */}
           <Exoplanet
             inclination={[0, 0, sceneData.inclination ?? 0]}
             rotationX={0}
             rotationY={calculateRotationVelocity()}
-            position={[0, 0, calculateStarDistance(sceneData.star_distance ?? 5)]}
+            position={[
+              0,
+              0,
+              calculateStarDistance(
+                sceneData.orbit ?? EARTH_SOLAR_DISTANCE,
+                UNIT
+              ),
+            ]}
             scale={calculateRadius(sceneData.rad ?? 1, EARTH_RADIUS)}
             texture={
               sceneData?.texture
@@ -96,15 +120,11 @@ export const Scene = () => {
 
           {/* Star */}
           <Exoplanet
-          type='STAR'
+            type="STAR"
             inclination={[0, 0, 0]}
             rotationX={0}
             rotationY={0.0005}
-            position={[
-              0,
-              0,
-              0,
-            ]}
+            position={[0, 0, 0]}
             scale={calculateRadius(sceneData.stellar_rad ?? 1, SOLAR_RADIUS)}
             texture={`${IMAGE_EXOPLANET_PATH}/sol.jpg`}
             side={0}
@@ -117,7 +137,7 @@ export const Scene = () => {
             inclination={[0, 0, 0]}
             rotationX={0}
             rotationY={calculateRotationVelocity()}
-            position={[0, 0, calculateStarDistance(5)]}
+            position={[0, 0, EARTH_SOLAR_DISTANCE]}
             scale={calculateRadius(1, EARTH_RADIUS)}
             texture={`${IMAGE_TEXTURE_PATH}tierra.jpg`}
             side={0}
@@ -125,7 +145,7 @@ export const Scene = () => {
 
           {/* Sun */}
           <Exoplanet
-          type="STAR"
+            type="STAR"
             inclination={[0, 0, 0]}
             rotationX={0}
             rotationY={0.0005}
@@ -143,7 +163,7 @@ export const Scene = () => {
         rotationX={0.0001}
         rotationY={0.0001}
         position={[0, 0, 0]}
-        scale={99000}
+        scale={500000}
         texture={`${IMAGE_TEXTURE_PATH}universo.jpg`}
         side={1}
       />

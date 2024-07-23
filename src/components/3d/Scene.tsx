@@ -2,7 +2,7 @@
 import { CameraControls } from "@react-three/drei";
 import { Exoplanet } from "@/components/3d/Exoplanet";
 import { useEffect, useRef } from "react";
-import { useControls, button, folder } from "leva";
+import { useControls, button, folder, buttonGroup } from "leva";
 import { calculateCameraDistance } from "@/utils/calculateCameraDistance";
 import { useChatStore } from "@/store/chat";
 import { calculateRotationVelocity } from "@/utils/calculateRotationVelocity";
@@ -10,6 +10,8 @@ import { IMAGE_EXOPLANET_PATH, IMAGE_TEXTURE_PATH } from "@/config";
 import { calculateRadius } from "@/utils/calculateRadius";
 import { calculateStarDistance } from "@/utils/calculateStarDistance";
 import Helpers from "@/components/3d/Helpers";
+import { DEG2RAD } from "three/src/math/MathUtils.js";
+import { useFrame } from "@react-three/fiber";
 
 export const Scene = () => {
   const UNIT = 1000;
@@ -18,6 +20,12 @@ export const Scene = () => {
   const SOLAR_RADIUS = 695700 / UNIT;
   const cameraControlsRef = useRef<any>(null);
   const { sceneData } = useChatStore();
+
+  // Rotate camera per seconds
+  useFrame((state, delta) =>
+    // Change 1 to dinamic degrees rotation
+    cameraControlsRef.current.rotate(1 * DEG2RAD * delta, 0, true)
+  );
 
   useEffect(() => {
     const distanceCametaToExoplanet = calculateCameraDistance(
@@ -30,19 +38,13 @@ export const Scene = () => {
       ...[0, 0, EARTH_SOLAR_DISTANCE], //target
       true
     );
+
+    // Rotate
+    cameraControlsRef.current?.rotate(180 * DEG2RAD, 0, true);
   }, []);
 
   useEffect(() => {
     if (sceneData !== undefined) {
-      console.log(
-        "stellar radius: ",
-        calculateRadius(sceneData.stellar_rad ?? 1, SOLAR_RADIUS)
-      );
-      console.log(
-        "exoplanet radius:",
-        calculateRadius(sceneData.rad ?? 1, EARTH_RADIUS)
-      );
-
       const distanceCametaToExoplanet = calculateCameraDistance(
         calculateRadius(sceneData?.rad ?? 1, EARTH_RADIUS)
       );
@@ -61,11 +63,27 @@ export const Scene = () => {
         ], //target
         true
       );
+
+      // Rotate
+      cameraControlsRef.current?.rotate(180 * DEG2RAD, 0, true);
     }
   }, [sceneData]);
 
   // Floating window - comment this disabled
   useControls({
+    thetaGrp: buttonGroup({
+      label: "rotate",
+      opts: {
+        "+45º": () => cameraControlsRef.current?.rotate(45 * DEG2RAD, 0, true),
+        "-90º": () => cameraControlsRef.current?.rotate(-90 * DEG2RAD, 0, true),
+        "+180º": () =>
+          cameraControlsRef.current?.rotate(180 * DEG2RAD, 0, true),
+        "-180º": () =>
+          cameraControlsRef.current?.rotate(-180 * DEG2RAD, 0, true),
+        "+360º": () =>
+          cameraControlsRef.current?.rotate(360 * DEG2RAD, 0, true),
+      },
+    }),
     setLookAt: folder(
       {
         vec4: { value: [0, 0, 0], label: "position" },

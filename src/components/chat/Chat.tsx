@@ -1,70 +1,23 @@
 "use client"
 import { motion } from "framer-motion"
-import { useEffect, useLayoutEffect, useRef } from "react"
-import { Message, useChat } from "ai/react"
-import { DiamondMinus, Loader, Send, StopCircle } from "lucide-react"
-import { useChatStore } from "@/store/chat"
-
-const initialMessages: Message[] = [
-  {
-    id: "welcome",
-    role: "assistant",
-    content:
-      "¡Hola! Estoy aquí para ser tu guía en el aprendizaje acerca de exoplanetas.",
-  },
-]
+import { DiamondMinus, Send, StopCircle } from "lucide-react"
+import { useChat } from "@/hooks/useChat"
 
 const Chat = () => {
-  const isChatHidden = useChatStore(store => store.isChatHidden)
-  const setIsChatHidden = useChatStore(store => store.setIsChatHidden)
-  const setSceneData = useChatStore(state => state.setSceneData)
   const {
-    messages,
     input,
-    isLoading,
+    messagesEndRef,
+    conversation,
     error,
+    isLoading,
+    isInputDisabled,
+    isChatHidden,
+    setIsChatHidden,
+    stop,
     handleInputChange,
     handleSubmit,
-    stop,
-  } = useChat({
-    api: "api/chat",
-    maxToolRoundtrips: 1,
-    initialMessages: initialMessages,
-  })
-
-  const messagesEndRef = useRef<HTMLDivElement>(null)
-  const inputDisabled = input.trim() === "" || isLoading
-  const conversation = messages.filter(message => !message.toolInvocations)
-
-  const sceneData = (() => {
-    const lastMessage = messages.findLast(message =>
-      message.toolInvocations?.some(
-        invocation => invocation.result?.updateScene === true
-      )
-    )
-
-    if (lastMessage) {
-      const invocation = lastMessage.toolInvocations?.find(
-        invocation => invocation.result?.updateScene === true
-      )
-      return invocation?.result?.data
-    }
-
-    return undefined
-  })()
-
-  !isChatHidden && setSceneData(sceneData)
-
-  useLayoutEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ block: "end" })
-  })
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault()
-      !inputDisabled && handleSubmit(e)
-    }
-  }
+    handleKeyDown,
+  } = useChat()
 
   if (isChatHidden) {
     return null
@@ -113,10 +66,10 @@ const Chat = () => {
         <button
           type={`${isLoading ? "button" : "submit"}`}
           onClick={isLoading ? stop : () => {}}
-          disabled={!isLoading && inputDisabled ? inputDisabled : false}
+          disabled={!isLoading && isInputDisabled}
           className="p-4 bg-opacity-50 text-white rounded-full flex items-center justify-center ml-2"
         >
-          {isLoading ? <StopCircle size={30} /> : <Send size={30} />}
+          {isLoading ? <StopCircle size={35} /> : <Send size={30} />}
         </button>
       </form>
       {error && <p className="text-red-500 px-4 pb-2">{error.message}</p>}

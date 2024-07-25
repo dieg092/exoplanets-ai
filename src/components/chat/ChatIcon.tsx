@@ -1,14 +1,14 @@
-"use client";
-import { motion } from "framer-motion";
-import { useChatStore } from "@/store/chat";
-import { BotMessageSquare } from "lucide-react";
+"use client"
+
+import { motion } from "framer-motion"
+import { BotMessageSquare } from "lucide-react"
+import { useChat } from "@/hooks/useChat"
 
 export const ChatIcon = () => {
-  const isChatHidden = useChatStore((store) => store.isChatHidden);
-  const setIsChatHidden = useChatStore((store) => store.setIsChatHidden);
+  const { isChatHidden, setIsChatHidden } = useChat()
 
   if (!isChatHidden) {
-    return null;
+    return null
   }
 
   return (
@@ -25,5 +25,5 @@ export const ChatIcon = () => {
     >
       <BotMessageSquare className="text-white" />
     </motion.div>
-  );
-};
+  )
+}

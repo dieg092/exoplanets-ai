@@ -1,8 +1,5 @@
-"use client"
-import { motion } from "framer-motion"
-import { useEffect, useLayoutEffect, useMemo, useRef } from "react"
+import { useEffect, useMemo } from "react"
 import { Message, useChat as useChatAI } from "ai/react"
-import { DiamondMinus, Send, StopCircle } from "lucide-react"
 import { useChatStore } from "@/store/chat"
 
 const initialMessages: Message[] = [
@@ -29,16 +26,11 @@ export const useChat = () => {
     initialMessages: initialMessages,
   })
 
-  const messagesEndRef = useRef<HTMLDivElement>(null)
   const isChatHidden = useChatStore(store => store.isChatHidden)
   const setIsChatHidden = useChatStore(store => store.setIsChatHidden)
   const setSceneData = useChatStore(state => state.setSceneData)
   const isInputDisabled = input.trim() === "" || isLoading
   const conversation = messages.filter(message => !message.toolInvocations)
-
-  useLayoutEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ block: "end" })
-  }, [conversation])
 
   const sceneData = useMemo(() => {
     const lastMessage = messages.findLast(message =>
@@ -67,10 +59,9 @@ export const useChat = () => {
       !isInputDisabled && handleSubmit(e)
     }
   }
-
+  console.log(error)
   return {
     input,
-    messagesEndRef,
     conversation,
     error,
     sceneData,

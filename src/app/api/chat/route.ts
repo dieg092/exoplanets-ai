@@ -27,7 +27,7 @@ interface Message {
 
 const openai = createOpenAI({
   apiKey: process.env.API_OPENAI_KEY,
-  compatibility: "strict", // Otras configuraciones personalizadas
+  compatibility: "strict",
 })
 
 export async function POST(req: Request) {

@@ -1,7 +1,8 @@
-"use client";
-import { ChatWrapper } from "@/components/chat/ChatWrapper";
-import { Scene } from "@/components/3d/Scene";
-import { Canvas } from "@react-three/fiber";
+"use client"
+
+import { ChatWrapper } from "@/components/chat/ChatWrapper"
+import { Scene } from "@/components/3d/Scene"
+import { Canvas } from "@react-three/fiber"
 
 const Page = () => {
   return (
@@ -16,7 +17,7 @@ const Page = () => {
       </Canvas>
       <ChatWrapper />
     </div>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page

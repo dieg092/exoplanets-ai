@@ -1,8 +1,27 @@
-"use client"
-
 import { motion } from "framer-motion"
 import { BotMessageSquare } from "lucide-react"
 import { useChat } from "@/hooks/useChat"
+import clsx from "clsx"
+
+const classesArray = [
+  "hover:cursor-pointer",
+  "absolute",
+  "bottom-16",
+  "right-16",
+  "p-4",
+  "bg-neutral-900",
+  "hover:bg-neutral-600",
+  "hover:bg-opacity-40",
+  "hover:backdrop-blur-lg",
+  "bg-opacity-20",
+  "backdrop-blur-lg",
+  "rounded-full",
+  "shadow-xl",
+  "border",
+  "border-white",
+  "border-opacity-20",
+]
+const classes = clsx(classesArray.join(" "))
 
 export const ChatIcon = () => {
   const { isChatHidden, setIsChatHidden } = useChat()
@@ -18,9 +37,7 @@ export const ChatIcon = () => {
       }}
       animate={{ opacity: 1 }}
       transition={{ ease: "easeOut", duration: 0.6 }}
-      className={
-        "hover:cursor-pointer absolute bottom-16 right-16 p-4 bg-neutral-900 hover:bg-neutral-600 hover:bg-opacity-40 hover:backdrop-blur-lg bg-opacity-20 backdrop-blur-lg rounded-full shadow-xl border border-white border-opacity-20"
-      }
+      className={classes}
       onClick={() => setIsChatHidden(false)}
     >
       <BotMessageSquare className="text-white" />

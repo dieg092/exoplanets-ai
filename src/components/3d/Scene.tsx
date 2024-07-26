@@ -9,11 +9,11 @@ import { IMAGE_EXOPLANET_PATH, IMAGE_TEXTURE_PATH } from "@/config";
 import { calculateRadius } from "@/utils/calculateRadius";
 import { calculateStarDistance } from "@/utils/calculateStarDistance";
 import Helpers from "@/components/3d/Helpers";
-import { DEG2RAD } from "three/src/math/MathUtils.js";
 import { useFrame } from "@react-three/fiber";
-import { CatmullRomCurve3, Vector3 } from "three";
+import { CatmullRomCurve3, Matrix4, Vector3 } from "three";
 import { calculateOrbitTime } from "@/utils/calculateOrbitTime";
 import { calculateRotationGravity } from "@/utils/calculateRotationGravity";
+import { calculateInclinationAngle } from "@/utils/calculateInclinationAngle";
 
 export const Scene = () => {
   const UNIT = 1000;
@@ -21,6 +21,7 @@ export const Scene = () => {
   const EARTH_SOLAR_DISTANCE = 150000000 / UNIT;
   const SOLAR_RADIUS = 695700 / UNIT;
   const LINE_POINTS = 1000; // total Points in curve
+  const INCLINATION_EARTH_ANGLE = 23.5;
 
   const orbitControls = useRef<any>(null);
   const exoplanetRef = useRef<any>(null);
@@ -38,11 +39,21 @@ export const Scene = () => {
       starDistance = calculateStarDistance(sceneData?.orbit, UNIT);
     }
 
+    // Inclination angle curve
+    const rotationMatrix = new Matrix4().makeRotationX(
+      calculateInclinationAngle(
+        sceneData?.inclination ?? INCLINATION_EARTH_ANGLE
+      )
+    );
+
     for (let i = 0; i <= LINE_POINTS; i++) {
       const angle = (i / LINE_POINTS) * Math.PI * 2; // 360 degrees in radians
       const x = starDistance * Math.cos(angle);
       const z = starDistance * Math.sin(angle);
-      points.push(new Vector3(x, 0, z));
+      const point = new Vector3(x, 0, z);
+      point.applyMatrix4(rotationMatrix);
+      points.push(point);
+      // points.push(new Vector3(x, 0, z));
     }
     return new CatmullRomCurve3(points, true, "catmullrom");
   }, [EARTH_SOLAR_DISTANCE, sceneData]);
@@ -97,10 +108,10 @@ export const Scene = () => {
       orbitControls.current.object.position.copy(newCameraPosition);
 
       // camera rotation gravity - CHANGE HERE!!
-      // const cameraDistance = orbitControls.current.getDistance();
-      // const rotationGravity = calculateRotationGravity(2, cameraDistance);
+      const cameraDistance = orbitControls.current.getDistance();
+      const rotationGravity = calculateRotationGravity(cameraDistance);
 
-      // orbitControls.current.autoRotateSpeed = rotationGravity;
+      orbitControls.current.autoRotateSpeed = rotationGravity;
 
       // Look target
       orbitControls.current.target.copy(point);
@@ -110,9 +121,10 @@ export const Scene = () => {
 
   return (
     <>
-      <Helpers />
+      {/* <Helpers /> */}
       <OrbitControls
         zoomSpeed={5}
+        enableRotate={true}
         autoRotate={true}
         autoRotateSpeed={0.5}
         ref={orbitControls}
@@ -123,7 +135,13 @@ export const Scene = () => {
           {/* Exoplanet */}
           <group ref={exoplanetRef}>
             <Exoplanet
-              inclination={[0, 0, 0]}
+              inclination={[
+                calculateInclinationAngle(
+                  sceneData?.inclination ?? INCLINATION_EARTH_ANGLE
+                ),
+                0,
+                0,
+              ]}
               rotationX={0}
               rotationY={calculateRotationVelocity()}
               position={[0, 0, 0]}
@@ -154,7 +172,11 @@ export const Scene = () => {
           {/* Earth */}
           <group ref={exoplanetRef}>
             <Exoplanet
-              inclination={[0, 0, 0]}
+              inclination={[
+                calculateInclinationAngle(INCLINATION_EARTH_ANGLE),
+                0,
+                0,
+              ]}
               rotationX={0}
               rotationY={calculateRotationVelocity()}
               position={[0, 0, 0]}
@@ -182,7 +204,7 @@ export const Scene = () => {
         rotation={[0, 0, 0]}
         points={linePoints}
         color={"white"}
-        opacity={1}
+        opacity={0.2}
         transparent
         lineWidth={0.3}
       />

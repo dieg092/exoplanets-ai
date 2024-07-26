@@ -1,8 +1,6 @@
-export const calculateRotationGravity = (
-  mass: number,
-  cameraDistance: number
-) => {
-  const G = 6.6743e-11;
+export const calculateRotationGravity = (cameraDistance: number) => {
+  // Generate random velocity between 1 - 5
+  const randomVelocity = Math.random() * (5 - 1) + 1;
 
-  return Math.sqrt((G * mass) / cameraDistance);
+  return Math.sqrt(randomVelocity / cameraDistance);
 };

@@ -13,6 +13,7 @@ import { DEG2RAD } from "three/src/math/MathUtils.js";
 import { useFrame } from "@react-three/fiber";
 import { CatmullRomCurve3, Vector3 } from "three";
 import { calculateOrbitTime } from "@/utils/calculateOrbitTime";
+import { calculateRotationGravity } from "@/utils/calculateRotationGravity";
 
 export const Scene = () => {
   const UNIT = 1000;
@@ -20,6 +21,7 @@ export const Scene = () => {
   const EARTH_SOLAR_DISTANCE = 150000000 / UNIT;
   const SOLAR_RADIUS = 695700 / UNIT;
   const LINE_POINTS = 1000; // total Points in curve
+
   const orbitControls = useRef<any>(null);
   const exoplanetRef = useRef<any>(null);
   const { sceneData } = useChatStore();
@@ -93,6 +95,12 @@ export const Scene = () => {
 
       // Update camera position
       orbitControls.current.object.position.copy(newCameraPosition);
+
+      // camera rotation gravity - CHANGE HERE!!
+      // const cameraDistance = orbitControls.current.getDistance();
+      // const rotationGravity = calculateRotationGravity(2, cameraDistance);
+
+      // orbitControls.current.autoRotateSpeed = rotationGravity;
 
       // Look target
       orbitControls.current.target.copy(point);
@@ -174,7 +182,7 @@ export const Scene = () => {
         rotation={[0, 0, 0]}
         points={linePoints}
         color={"white"}
-        opacity={0.1}
+        opacity={1}
         transparent
         lineWidth={0.3}
       />

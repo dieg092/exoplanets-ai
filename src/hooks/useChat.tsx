@@ -1,6 +1,6 @@
-import { useEffect, useMemo } from "react";
-import { Message, useChat as useChatAI } from "ai/react";
-import { useChatStore } from "@/store/chat";
+import { useEffect, useMemo } from "react"
+import { Message, useChat as useChatAI } from "ai/react"
+import { useChatStore } from "@/store/chat"
 
 const initialMessages: Message[] = [
   {
@@ -9,7 +9,7 @@ const initialMessages: Message[] = [
     content:
       "¡Hola! Estoy aquí para ser tu guía en el aprendizaje acerca de exoplanetas.",
   },
-];
+]
 
 export const useChat = () => {
   const {
@@ -24,41 +24,40 @@ export const useChat = () => {
     api: "api/chat",
     maxToolRoundtrips: 1,
     initialMessages: initialMessages,
-  });
+  })
 
-  const isChatHidden = useChatStore((store) => store.isChatHidden);
-  const setIsChatHidden = useChatStore((store) => store.setIsChatHidden);
-  const setSceneData = useChatStore((state) => state.setSceneData);
-  const isInputDisabled = input.trim() === "" || isLoading;
-  const conversation = messages.filter((message) => !message.toolInvocations);
+  const setSceneData = useChatStore(state => state.setSceneData)
+  const isInputDisabled = input.trim() === "" || isLoading
+  const conversation = messages.filter(message => !message.toolInvocations)
 
   const sceneData = useMemo(() => {
-    const lastMessage = messages.findLast((message) =>
+    const lastMessage = messages.findLast(message =>
       message.toolInvocations?.some(
-        (invocation) => invocation.result?.updateScene === true
+        invocation => invocation.result?.updateScene === true
       )
-    );
+    )
 
     if (lastMessage) {
       const invocation = lastMessage.toolInvocations?.find(
-        (invocation) => invocation.result?.updateScene === true
-      );
-      return invocation?.result?.data;
+        invocation => invocation.result?.updateScene === true
+      )
+      return invocation?.result?.data
     }
 
-    return undefined;
-  }, [messages]);
+    return undefined
+  }, [messages])
 
   useEffect(() => {
-    setSceneData(sceneData);
-  }, [sceneData, setSceneData]);
+    setSceneData(sceneData)
+  }, [sceneData, setSceneData])
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter") {
-      e.preventDefault();
-      !isInputDisabled && handleSubmit(e);
+      e.preventDefault()
+      !isInputDisabled && handleSubmit(e)
     }
-  };
+  }
+
   return {
     input,
     conversation,
@@ -66,11 +65,9 @@ export const useChat = () => {
     sceneData,
     isLoading,
     isInputDisabled,
-    isChatHidden,
-    setIsChatHidden,
     stop,
     handleInputChange,
     handleSubmit,
     handleKeyDown,
-  };
-};
+  }
+}

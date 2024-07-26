@@ -4,6 +4,7 @@ import ChatHeader from "./ChatHeader"
 import ChatBody from "./ChatBody"
 import ChatFooter from "./ChatFooter"
 import clsx from "clsx"
+import { useToggleChat } from "@/hooks/useToggleChat"
 
 const classesArray = [
   "opacity-100",
@@ -44,8 +45,9 @@ const Chat = () => {
     handleInputChange,
     handleSubmit,
     handleKeyDown,
-    isChatHidden,
   } = useChat()
+
+  const { isChatHidden } = useToggleChat()
 
   if (isChatHidden) {
     return null

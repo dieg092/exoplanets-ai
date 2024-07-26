@@ -1,8 +1,8 @@
 import { DiamondMinus } from "lucide-react"
-import { useChat } from "@/hooks/useChat"
+import { useToggleChat } from "@/hooks/useToggleChat"
 
 const ChatHeader = () => {
-  const { setIsChatHidden } = useChat()
+  const { setIsChatHidden } = useToggleChat()
 
   return (
     <div className="flex justify-end px-4 py-3 text-white text-lg w-full">

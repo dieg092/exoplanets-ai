@@ -108,10 +108,10 @@ export const Scene = () => {
       orbitControls.current.object.position.copy(newCameraPosition);
 
       // camera rotation gravity - CHANGE HERE!!
-      // const cameraDistance = orbitControls.current.getDistance();
-      // const rotationGravity = calculateRotationGravity(2, cameraDistance);
+      const cameraDistance = orbitControls.current.getDistance();
+      const rotationGravity = calculateRotationGravity(cameraDistance);
 
-      // orbitControls.current.autoRotateSpeed = rotationGravity;
+      orbitControls.current.autoRotateSpeed = rotationGravity;
 
       // Look target
       orbitControls.current.target.copy(point);
@@ -121,7 +121,7 @@ export const Scene = () => {
 
   return (
     <>
-      <Helpers />
+      {/* <Helpers /> */}
       <OrbitControls
         zoomSpeed={5}
         enableRotate={true}
@@ -204,7 +204,7 @@ export const Scene = () => {
         rotation={[0, 0, 0]}
         points={linePoints}
         color={"white"}
-        opacity={1}
+        opacity={0.2}
         transparent
         lineWidth={0.3}
       />

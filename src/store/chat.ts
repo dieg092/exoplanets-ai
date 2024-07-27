@@ -1,9 +1,9 @@
-import { create } from "zustand";
-import type { ChatStoreType, ExoplanetType } from "@/definition";
+import { create } from "zustand"
+import type { ChatStoreType, Exoplanet } from "@/definition"
 
-export const useChatStore = create<ChatStoreType>((set) => ({
+export const useChatStore = create<ChatStoreType>(set => ({
   isChatHidden: false,
   sceneData: undefined,
   setIsChatHidden: (isHidden: boolean) => set({ isChatHidden: isHidden }),
-  setSceneData: (exoplanet: ExoplanetType) => set({ sceneData: exoplanet }),
-}));
+  setSceneData: (exoplanet: Exoplanet) => set({ sceneData: exoplanet }),
+}))

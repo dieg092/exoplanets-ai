@@ -1,47 +1,49 @@
 // Original API JSON
 export type JsonApi = {
-  kepid: number;
-  kepler_name: string | null;
-  koi_disposition: string;
-  koi_period: number | null;
-  koi_prad: number | null;
-  koi_sma: number | null;
-  koi_teq: number | null;
-  koi_dor: number | null;
-  koi_count: number | null;
-  koi_steff: number | null;
-  koi_slogg: number | null;
-  koi_srad: number | null;
-  koi_smass: number | null;
-  koi_pdisposition: string;
-  koi_incl: number | null;
-};
+  kepid: number
+  kepler_name: string | null
+  koi_disposition: string
+  koi_period: number | null
+  koi_prad: number | null
+  koi_sma: number | null
+  koi_teq: number | null
+  koi_dor: number | null
+  koi_count: number | null
+  koi_steff: number | null
+  koi_slogg: number | null
+  koi_srad: number | null
+  koi_smass: number | null
+  koi_pdisposition: string
+  koi_incl: number | null
+}
 
-export type ExoplanetType = {
-  id: number;
-  host_star: string | null;
-  name: string | null;
-  archive_disposition: string;
-  period: number | null;
-  rad: number | null;
-  orbit: number | null;
-  eq_temp: number | null;
-  star_distance: number | null;
-  number_planets: number | null;
-  stellar_temp: number | null;
-  surface_gravity: number | null;
-  stellar_rad: number | null;
-  stellar_mass: number | null;
-  disposition: string;
-  texture: string;
-  inclination: number | null;
-};
+export type Exoplanet = {
+  id: number
+  host_star: string | null
+  name: string | null
+  archive_disposition: string
+  period: number | null
+  rad: number | null
+  orbit: number | null
+  eq_temp: number | null
+  star_distance: number | null
+  number_planets: number | null
+  stellar_temp: number | null
+  surface_gravity: number | null
+  stellar_rad: number | null
+  stellar_mass: number | null
+  disposition: string
+  texture: string
+  inclination: number | null
+}
 
-export type ExoplanetTexture = {
-  eq_temp: number | null;
-  rad: number | null;
-  star_distance: number | null;
-};
+export type CosmicEntityInclination = [number, number, number]
+export type CosmicEntityType = "PLANET" | "STAR" | "UNIVERSE"
+export type CosmicEntityTexture = {
+  eq_temp: number | null
+  rad: number | null
+  star_distance: number | null
+}
 
 export type Texture =
   | "co2_acidosulfurico.jpg"
@@ -55,7 +57,7 @@ export type Texture =
   | "basalto_regolito.jpg"
   | "basalto_anortosita.jpg"
   | "nuves.jpg"
-  | "basalto_riolita.jpg";
+  | "basalto_riolita.jpg"
 
 export type OldKeys =
   | "kepid"
@@ -72,7 +74,7 @@ export type OldKeys =
   | "koi_srad"
   | "koi_smass"
   | "koi_pdisposition"
-  | "koi_incl";
+  | "koi_incl"
 
 export type NewKeys =
   | "id"
@@ -90,13 +92,13 @@ export type NewKeys =
   | "stellar_rad"
   | "stellar_mass"
   | "texture"
-  | "inclination";
+  | "inclination"
 
 // zustand
 // Chat
 export type ChatStoreType = {
-  isChatHidden: boolean;
-  sceneData?: ExoplanetType;
-  setIsChatHidden: (boolean) => void;
-  setSceneData: (ExoplanetType) => void;
-};
+  isChatHidden: boolean
+  sceneData?: Exoplanet
+  setIsChatHidden: (boolean) => void
+  setSceneData: (Exoplanet) => void
+}

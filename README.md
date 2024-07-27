@@ -1,8 +1,8 @@
 This is a exoplanets-ai project bootstrapped with next js
 
-<center>
-  <img src="logo.webp" alt="EXOPLANETS-AI" />
-</center>
+<p align="center">
+  <img src="logo.webp" alt="[TEXTO_ALTERNATIVO]"/>
+</p>
 
 ## This project use OpenAI provider
 

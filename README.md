@@ -1,6 +1,8 @@
 This is a exoplanets-ai project bootstrapped with next js
 
-## This project use ollama provider
+![EXOPLANETS-AI](logo.png)
+
+## This project use OpenAI provider
 
 ###### Steps to install
 

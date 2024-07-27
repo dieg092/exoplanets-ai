@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react"
+import { KeyboardEvent, useEffect, useMemo, useState } from "react"
 import { Message, useChat as useChatAI } from "ai/react"
 import { useChatStore } from "@/store/chat"
 
@@ -12,6 +12,9 @@ const initialMessages: Message[] = [
 ]
 
 export const useChat = () => {
+  const [openaiKey, setOpenAiKey] = useState<string>("")
+  const setSceneData = useChatStore(state => state.setSceneData)
+
   const {
     messages,
     input,
@@ -24,24 +27,24 @@ export const useChat = () => {
     api: "api/chat",
     maxToolRoundtrips: 1,
     initialMessages: initialMessages,
+    body: {
+      api_key: openaiKey,
+    },
   })
 
-  const setSceneData = useChatStore((state) => state.setSceneData)
-  const keyOpenAI = useChatStore((state) => state.keyOpenAI)
-
   const isInputDisabled = input.trim() === "" || isLoading
-  const conversation = messages.filter((message) => !message.toolInvocations)
+  const conversation = messages.filter(message => !message.toolInvocations)
 
   const sceneData = useMemo(() => {
-    const lastMessage = messages.findLast((message) =>
+    const lastMessage = messages.findLast(message =>
       message.toolInvocations?.some(
-        (invocation) => invocation.result?.updateScene === true
+        invocation => invocation.result?.updateScene === true
       )
     )
 
     if (lastMessage) {
       const invocation = lastMessage.toolInvocations?.find(
-        (invocation) => invocation.result?.updateScene === true
+        invocation => invocation.result?.updateScene === true
       )
       return invocation?.result?.data
     }
@@ -57,7 +60,7 @@ export const useChat = () => {
     if (e.key === "Enter") {
       e.preventDefault()
 
-      if (keyOpenAI === "") {
+      if (openaiKey === "") {
         alert("Debes ingresar una API_KEY de OPEN_AI para usar el chat")
         return
       }
@@ -66,7 +69,10 @@ export const useChat = () => {
     }
   }
 
+  const handleChangeOpenaiKey = (text: string) => setOpenAiKey(text)
+
   return {
+    openaiKey,
     input,
     conversation,
     error,
@@ -77,5 +83,6 @@ export const useChat = () => {
     handleInputChange,
     handleSubmit,
     handleKeyDown,
+    handleChangeOpenaiKey,
   }
 }

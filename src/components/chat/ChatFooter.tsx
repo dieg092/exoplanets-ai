@@ -21,17 +21,10 @@ const ChatFooter = ({
   handleSubmit,
   handleKeyDown,
 }: Props) => {
-  const keyOpenAI = useChatStore((store) => store.keyOpenAI)
-
   return (
     <>
       <form
-        onSubmit={(e) => {
-          if (keyOpenAI === "") {
-            e.preventDefault()
-            alert("Debes ingresar una API_KEY de OPEN_AI para usar el chat")
-            return
-          }
+        onSubmit={e => {
           handleSubmit(e)
         }}
         className="flex items-center px-3 pb-3"

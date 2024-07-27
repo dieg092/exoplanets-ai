@@ -1,17 +1,21 @@
 import { DiamondMinus } from "lucide-react"
 import { useToggleChat } from "@/hooks/useToggleChat"
 import { useChatStore } from "@/store/chat"
+import { KeyboardEvent } from "react"
 
-const ChatHeader = () => {
+type Props = {
+  openaiKey: string
+  handleChangeOpenaiKey: (event: string) => void
+}
+
+const ChatHeader = ({ openaiKey, handleChangeOpenaiKey }: Props) => {
   const { setIsChatHidden } = useToggleChat()
-  const keyOpenAI = useChatStore((store) => store.keyOpenAI)
-  const setKeyOpenAI = useChatStore((store) => store.setKeyOpenAI)
 
   return (
     <div className="flex justify-between items-center px-4 py-3 text-white text-lg w-full">
       <input
-        value={keyOpenAI}
-        onChange={(e) => setKeyOpenAI(e.target.value)}
+        value={openaiKey}
+        onChange={e => handleChangeOpenaiKey(e.target.value)}
         type="password"
         placeholder="OPEN_AI API_KEY"
         className="border rounded-md mr-2 p-1 bg-black bg-opacity-30 text-white backdrop-blur-md"

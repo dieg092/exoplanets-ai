@@ -36,6 +36,7 @@ const classes = clsx(classesArray.join(" "))
 
 const Chat = () => {
   const {
+    openaiKey,
     conversation,
     input,
     error,
@@ -45,6 +46,7 @@ const Chat = () => {
     handleInputChange,
     handleSubmit,
     handleKeyDown,
+    handleChangeOpenaiKey,
   } = useChat()
 
   const { isChatHidden } = useToggleChat()
@@ -60,7 +62,10 @@ const Chat = () => {
       transition={{ duration: 0.5 }}
       className={classes}
     >
-      <ChatHeader />
+      <ChatHeader
+        openaiKey={openaiKey}
+        handleChangeOpenaiKey={handleChangeOpenaiKey}
+      />
       <ChatBody conversation={conversation} />
       <ChatFooter
         input={input}

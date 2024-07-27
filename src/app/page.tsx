@@ -6,7 +6,10 @@ import { Canvas } from "@react-three/fiber"
 
 const Page = () => {
   return (
-    <div className="w-full h-screen overflow-hidden">
+    <div className="w-full h-screen overflow-hidden relative">
+      <h1 className="font-bold text-2xl sm:text-4xl absolute z-50 sm:left-6 left-1/2 transform -translate-x-1/2 sm:transform-none sm:translate-x-0 top-3 text-white">
+        EXOPLANETS-AI
+      </h1>
       <Canvas
         className="bg-black w-full h-full"
         camera={{

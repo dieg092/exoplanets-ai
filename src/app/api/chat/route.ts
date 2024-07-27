@@ -83,7 +83,7 @@ export async function POST(req: Request) {
         }),
         exoplanet_find: tool({
           description:
-            "Muestra el exoplaneta si el usuario introduce un nombre de un exoplaneta",
+            "Muestra el exoplaneta si el usuario introduce un nombre de un exoplaneta o si te dice que muestres la tierra, busca el que tiene nombre de Earth",
           parameters: z.object({ exoplanet_name: z.string() }),
           execute: async ({ exoplanet_name }) => {
             const exoplanet = findExoplanet(

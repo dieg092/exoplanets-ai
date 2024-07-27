@@ -17,7 +17,7 @@ import { calculateRadius } from "@/utils/calculateRadius"
 
 const SUN_TEXTURE = `${IMAGE_EXOPLANET_PATH}/sol.jpg`
 const UNIVERSE_TEXTURE = `${IMAGE_TEXTURE_PATH}universo.jpg`
-const EARTH_TEXTURE = `${IMAGE_TEXTURE_PATH}tierra.jpg`
+const EARTH_TEXTURE = `${IMAGE_EXOPLANET_PATH}/tierra.jpg`
 const UNIVERSE_RADIUS = 500000
 
 const TEXTURES: Record<CosmicEntityType, string> = {

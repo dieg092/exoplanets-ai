@@ -1,5 +1,4 @@
 import { convertToCoreMessages, streamText, tool, ToolInvocation } from "ai"
-import { ollama } from "ollama-ai-provider"
 import { createOpenAI } from "@ai-sdk/openai"
 import formatExoplanetsTexture from "@/data/formatExoplanetsTexture.json"
 import { z } from "zod"
@@ -25,13 +24,14 @@ interface Message {
   toolInvocations?: ToolInvocation[]
 }
 
-const openai = createOpenAI({
-  apiKey: process.env.API_OPENAI_KEY,
-  compatibility: "strict",
-})
-
 export async function POST(req: Request) {
-  const { messages }: { messages: Message[] } = await req.json()
+  const { messages, api_key }: { messages: Message[]; api_key: string } =
+    await req.json()
+
+  const openai = createOpenAI({
+    apiKey: api_key ? api_key : process.env.API_OPENAI_KEY,
+    compatibility: "strict",
+  })
 
   const result = await streamText({
     model: openai.chat("gpt-3.5-turbo"),
@@ -39,6 +39,7 @@ export async function POST(req: Request) {
     messages: convertToCoreMessages(messages),
     temperature: 0,
     topP: 1,
+
     tools: {
       exoplanets_confirmed: tool({
         description: "Muestra el total de exoplanetas confirmados por la NASA",

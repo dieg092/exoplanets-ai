@@ -99,8 +99,6 @@ export type NewKeys =
 export type ChatStoreType = {
   isChatHidden: boolean
   sceneData?: Exoplanet
-  keyOpenAI: string
   setIsChatHidden: (boolean: boolean) => void
   setSceneData: (exoplanet: Exoplanet) => void
-  setKeyOpenAI: (apiKey: string) => void
 }

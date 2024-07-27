@@ -1,7 +1,7 @@
 This is a exoplanets-ai project bootstrapped with next js
 
 <div style="text-align: center;">
-    <img src="imagen.png" alt="Descripción de la imagen" style="max-width: 200px; height: auto;">
+    <img src="./imagen.png" alt="Descripción de la imagen" style="max-width: 200px; height: auto;">
 </div>
 
 ## This project use OpenAI provider

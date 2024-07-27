@@ -1,3 +1,4 @@
+import { useChatStore } from "@/store/chat"
 import { Send, StopCircle } from "lucide-react"
 import { ChangeEvent, FormEvent, KeyboardEvent } from "react"
 
@@ -20,9 +21,21 @@ const ChatFooter = ({
   handleSubmit,
   handleKeyDown,
 }: Props) => {
+  const keyOpenAI = useChatStore((store) => store.keyOpenAI)
+
   return (
     <>
-      <form onSubmit={handleSubmit} className="flex items-center px-3 pb-3">
+      <form
+        onSubmit={(e) => {
+          if (keyOpenAI === "") {
+            e.preventDefault()
+            alert("Debes ingresar una API_KEY de OPEN_AI para usar el chat")
+            return
+          }
+          handleSubmit(e)
+        }}
+        className="flex items-center px-3 pb-3"
+      >
         <textarea
           className="border rounded-md mr-2 flex-grow p-2 bg-black bg-opacity-30 text-white backdrop-blur-md"
           name="prompt"

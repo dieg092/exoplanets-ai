@@ -1,8 +1,6 @@
 This is a exoplanets-ai project bootstrapped with next js
 
-<div style="display: flex; justify-content: center;">
-    <img src="./imagen.png" alt="Descripción de la imagen" style="max-width: 200px; height: auto;">
-</div>
+![EXOPLANETS-AI](_logo.png)
 
 ## This project use OpenAI provider
 

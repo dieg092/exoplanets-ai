@@ -4,6 +4,9 @@ import formatExoplanetsTexture from "@/data/formatExoplanetsTexture.json"
 import { z } from "zod"
 import {
   filterByConfirmed,
+  filterByMajorOrbit,
+  filterByMinorOrbit,
+  filterByUnConfirmed,
   findExoplanet,
   getRandomExoplanet,
 } from "@/utils/dataActions"
@@ -56,6 +59,17 @@ export async function POST(req: Request) {
             }
           },
         }),
+        exoplanets_unconfirmed: tool({
+          description:
+            "Muestra el total de exoplanetas no confirmados por la NASA",
+          parameters: z.object({}),
+          execute: async () => {
+            return {
+              updateScene: false,
+              data: filterByUnConfirmed(formatExoplanetsTexture).length,
+            }
+          },
+        }),
         exoplanet_random: tool({
           description:
             "Muestra un exoplaneta random de la base de datos de la NASA",
@@ -88,6 +102,26 @@ export async function POST(req: Request) {
                 updateScene: false,
                 data: "null",
               }
+            }
+          },
+        }),
+        exoplanets_major_orbit: tool({
+          description: "Muestra el exoplaneta con mayor tiempo de orbita",
+          parameters: z.object({}),
+          execute: async () => {
+            return {
+              updateScene: true,
+              data: filterByMajorOrbit(formatExoplanetsTexture),
+            }
+          },
+        }),
+        exoplanets_minor_orbit: tool({
+          description: "Muestra el exoplaneta con menor tiempo de orbita",
+          parameters: z.object({}),
+          execute: async () => {
+            return {
+              updateScene: true,
+              data: filterByMinorOrbit(formatExoplanetsTexture),
             }
           },
         }),

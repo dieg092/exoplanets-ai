@@ -87,7 +87,10 @@ export const useScene = () => {
         calculateRadius(sceneData?.rad ?? 1, EARTH_RADIUS)
       )
 
-      distance = Math.max(distanceCametaToExoplanet, Math.min(150000, distance))
+      distance = Math.max(
+        distanceCametaToExoplanet,
+        Math.min(2000000, distance)
+      )
 
       const offset = offsetDirection.multiplyScalar(distance)
       const newCameraPosition = point.clone().add(offset)

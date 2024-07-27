@@ -1,27 +1,21 @@
-This is a exoplanets-ai project bootstrapped with next js
+<h1 align="center">Bienvenid@s a EXOPLANETS-AI</h1>
 
 <p align="center">
   <img src="logo.webp" alt="[TEXTO_ALTERNATIVO]"/>
 </p>
 
-## This project use OpenAI provider
+#### EXOPLANETS-AI simula el universo y permite la exploración de los exoplanetas en 3D a escala real con inteligencia artificial para guiar a los usuario en la exploración de los distintos cuerpos celestes y sus propiedades. EXOPLANETS-AI está impulsado por Inteligencia artificial y utiliza [Vercel AI SDK](https://sdk.vercel.ai/).
 
-###### Steps to install
+## Empecemos
 
-1. Go to ollama and download: [Download ollama](https://ollama.com/download)
-2. Excecute ollama or CLI
-3. Write:
+1. Clonar el proyecto.
 
-```bash
-    ollama run llama3
+```bash 
+git clone https://github.com/dieg092/exoplanets-ai
 ```
 
----
-
-## Getting Started
-
-1. Install all dependecy.
-2. Run the development server:
+2. Instalar todas las dependencias.
+3. Ejecutar el servidor en modo de desarrollo.
 
 ```bash
 npm run dev
@@ -32,5 +26,5 @@ pnpm dev
 # or
 bun dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Abrir [http://localhost:3000](http://localhost:3000)
+5. Colocar tu OPEN AI - API KEY en la parte superior del chat para poder utilizar la IA

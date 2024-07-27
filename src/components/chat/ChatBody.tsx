@@ -10,7 +10,7 @@ const ChatBody = ({ conversation }: props) => {
 
   return (
     <div className="flex-grow overflow-y-auto px-4 rounded-xl no-scrollbar">
-      {conversation.map(message => (
+      {conversation.map((message) => (
         <div
           key={message.id}
           className={`py-2 text-white ${message.role === "user" && "text-end"}`}

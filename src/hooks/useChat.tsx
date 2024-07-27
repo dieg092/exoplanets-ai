@@ -26,20 +26,22 @@ export const useChat = () => {
     initialMessages: initialMessages,
   })
 
-  const setSceneData = useChatStore(state => state.setSceneData)
+  const setSceneData = useChatStore((state) => state.setSceneData)
+  const keyOpenAI = useChatStore((state) => state.keyOpenAI)
+
   const isInputDisabled = input.trim() === "" || isLoading
-  const conversation = messages.filter(message => !message.toolInvocations)
+  const conversation = messages.filter((message) => !message.toolInvocations)
 
   const sceneData = useMemo(() => {
-    const lastMessage = messages.findLast(message =>
+    const lastMessage = messages.findLast((message) =>
       message.toolInvocations?.some(
-        invocation => invocation.result?.updateScene === true
+        (invocation) => invocation.result?.updateScene === true
       )
     )
 
     if (lastMessage) {
       const invocation = lastMessage.toolInvocations?.find(
-        invocation => invocation.result?.updateScene === true
+        (invocation) => invocation.result?.updateScene === true
       )
       return invocation?.result?.data
     }
@@ -54,6 +56,12 @@ export const useChat = () => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter") {
       e.preventDefault()
+
+      if (keyOpenAI === "") {
+        alert("Debes ingresar una API_KEY de OPEN_AI para usar el chat")
+        return
+      }
+
       !isInputDisabled && handleSubmit(e)
     }
   }

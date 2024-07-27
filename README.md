@@ -1,6 +1,6 @@
 This is a exoplanets-ai project bootstrapped with next js
 
-![EXOPLANETS-AI](logo.png)
+![EXOPLANETS-AI](logo.webp)
 
 ## This project use OpenAI provider
 

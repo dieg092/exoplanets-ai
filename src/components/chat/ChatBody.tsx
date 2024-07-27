@@ -1,16 +1,16 @@
 import { useScroll } from "@/hooks/useScroll"
 import { Message } from "ai"
 
-type props = {
+type Props = {
   conversation: Message[]
 }
 
-const ChatBody = ({ conversation }: props) => {
+const ChatBody = ({ conversation }: Props) => {
   const { scrollRef } = useScroll({ element: conversation })
 
   return (
     <div className="flex-grow overflow-y-auto px-4 rounded-xl no-scrollbar">
-      {conversation.map((message) => (
+      {conversation.map(message => (
         <div
           key={message.id}
           className={`py-2 text-white ${message.role === "user" && "text-end"}`}

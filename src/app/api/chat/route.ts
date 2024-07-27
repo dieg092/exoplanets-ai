@@ -28,66 +28,80 @@ export async function POST(req: Request) {
   const { messages, api_key }: { messages: Message[]; api_key: string } =
     await req.json()
 
+  const apiKey = api_key ? api_key : process.env.API_OPENAI_KEY
+
+  // Crear instancia de OpenAI
   const openai = createOpenAI({
-    apiKey: api_key ? api_key : process.env.API_OPENAI_KEY,
+    apiKey: apiKey,
     compatibility: "strict",
   })
 
-  const result = await streamText({
-    model: openai.chat("gpt-3.5-turbo"),
-    system: systemConfig,
-    messages: convertToCoreMessages(messages),
-    temperature: 0,
-    topP: 1,
+  try {
+    const result = await streamText({
+      model: openai.chat("gpt-3.5-turbo"),
+      system: systemConfig,
+      messages: convertToCoreMessages(messages),
+      temperature: 0,
+      topP: 1,
 
-    tools: {
-      exoplanets_confirmed: tool({
-        description: "Muestra el total de exoplanetas confirmados por la NASA",
-        parameters: z.object({}),
-        execute: async () => {
-          return {
-            updateScene: false,
-            data: filterByConfirmed(formatExoplanetsTexture).length,
-          }
-        },
-      }),
-      exoplanet_random: tool({
-        description:
-          "Muestra un exoplaneta random de la base de datos de la NASA",
-        parameters: z.object({}),
-        execute: async () => {
-          return {
-            updateScene: true,
-            data: getRandomExoplanet(formatExoplanetsTexture),
-          }
-        },
-      }),
-      exoplanet_find: tool({
-        description:
-          "Muestra el exoplaneta si el usuario introduce un nombre de un exoplaneta",
-        parameters: z.object({ exoplanet_name: z.string() }),
-        execute: async ({ exoplanet_name }) => {
-          const exoplanet = findExoplanet(
-            formatExoplanetsTexture,
-            exoplanet_name
-          )
-
-          if (exoplanet !== null) {
-            return {
-              updateScene: true,
-              data: exoplanet,
-            }
-          } else {
-            // Exoplanet not found
+      tools: {
+        exoplanets_confirmed: tool({
+          description:
+            "Muestra el total de exoplanetas confirmados por la NASA",
+          parameters: z.object({}),
+          execute: async () => {
             return {
               updateScene: false,
-              data: "null",
+              data: filterByConfirmed(formatExoplanetsTexture).length,
             }
-          }
-        },
-      }),
-    },
-  })
+          },
+        }),
+        exoplanet_random: tool({
+          description:
+            "Muestra un exoplaneta random de la base de datos de la NASA",
+          parameters: z.object({}),
+          execute: async () => {
+            return {
+              updateScene: true,
+              data: getRandomExoplanet(formatExoplanetsTexture),
+            }
+          },
+        }),
+        exoplanet_find: tool({
+          description:
+            "Muestra el exoplaneta si el usuario introduce un nombre de un exoplaneta",
+          parameters: z.object({ exoplanet_name: z.string() }),
+          execute: async ({ exoplanet_name }) => {
+            const exoplanet = findExoplanet(
+              formatExoplanetsTexture,
+              exoplanet_name
+            )
 
-  return result.toAIStreamResponse()
+            if (exoplanet !== null) {
+              return {
+                updateScene: true,
+                data: exoplanet,
+              }
+            } else {
+              // Exoplanet not found
+              return {
+                updateScene: false,
+                data: "null",
+              }
+            }
+          },
+        }),
+      },
+    })
+
+    return result.toAIStreamResponse()
+  } catch (error) {
+    return new Response(
+      "API_KEY de Open AI errónea. Puedes crear una en https://platform.openai.com/account/api-keys",
+      {
+        status: 401,
+        headers: { "Content-Type": "application/json" },
+      }
+    )
+  }
 }

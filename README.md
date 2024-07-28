@@ -1,5 +1,3 @@
-This is a exoplanets-ai project bootstrapped with next js
-
 <p align="center">
   <img src="logo.webp" alt="[TEXTO_ALTERNATIVO]"/>
 </p>

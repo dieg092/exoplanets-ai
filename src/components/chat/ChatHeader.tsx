@@ -16,7 +16,7 @@ const ChatHeader = ({ openaiKey, handleChangeOpenaiKey }: Props) => {
         onChange={e => handleChangeOpenaiKey(e.target.value)}
         type="password"
         placeholder="OpenAI API_KEY"
-        className="border w-full rounded-md mr-2 p-1 bg-black bg-opacity-30 text-white backdrop-blur-md"
+        className="border w-full rounded-md mr-2 py-1 px-2 bg-black bg-opacity-30 text-white backdrop-blur-md"
       />
       <DiamondMinus
         className="ml-auto hover:cursor-pointer hover:text-slate-400 hover:transition hover:ease-in-out hover:scale-125"

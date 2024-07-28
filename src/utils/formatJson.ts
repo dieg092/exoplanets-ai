@@ -1,5 +1,10 @@
-import type { JsonApi, OldKeys, NewKeys, ExoplanetTexture } from "@/definition";
-import { assignTexture } from "./assignTexture";
+import type {
+  JsonApi,
+  OldKeys,
+  NewKeys,
+  CosmicEntityTexture,
+} from "@/definition"
+import { assignTexture } from "./assignTexture"
 
 const newObjectFields: Record<OldKeys, NewKeys> = {
   kepid: "id",
@@ -16,37 +21,60 @@ const newObjectFields: Record<OldKeys, NewKeys> = {
   koi_srad: "stellar_rad",
   koi_smass: "stellar_mass",
   koi_pdisposition: "disposition",
-};
+}
 
 export const formatJson = (json: Array<JsonApi>) => {
-  return json.map((jsonObject) => {
+  const newJson = json.map(jsonObject => {
     //Create new object formatted
-    const formattedObject: { [key: string]: string | number | null } = {};
+    const formattedObject: { [key: string]: string | number | null } = {}
 
-    Object.keys(jsonObject).map((key) => {
+    Object.keys(jsonObject).map(key => {
       //Get new key, example: newObjectFields.kepid => "id"
-      const newKey = newObjectFields[key as OldKeys];
+      const newKey = newObjectFields[key as OldKeys]
 
       // Replace old fields json fom (API) to new object fields
       if (newKey) {
         //apply new key
-        formattedObject[newKey] = jsonObject[key as OldKeys];
+        formattedObject[newKey] = jsonObject[key as OldKeys]
       } else {
         //apply old key
-        formattedObject[key] = jsonObject[key as OldKeys];
+        formattedObject[key] = jsonObject[key as OldKeys]
       }
 
       //If exist kepler name, add host star
-      formattedObject.host_star = jsonObject.kepler_name?.split(" ")[0] ?? null;
-    });
+      formattedObject.host_star = jsonObject.kepler_name?.split(" ")[0] ?? null
+    })
 
-    const dataToTexture: ExoplanetTexture = {
+    const dataToTexture: CosmicEntityTexture = {
       eq_temp: jsonObject.koi_teq,
       rad: jsonObject.koi_prad,
       star_distance: jsonObject.koi_dor,
-    };
+    }
 
-    formattedObject.texture = assignTexture(dataToTexture);
-    return formattedObject;
-  });
-};
+    formattedObject.texture = assignTexture(dataToTexture)
+    return formattedObject
+  })
+
+  newJson.push(earth)
+  return newJson
+}
+
+const earth = {
+  id: 0,
+  host_star: "Sun",
+  name: "Earth",
+  archive_disposition: "CONFIRMED",
+  period: 365.25,
+  rad: 1,
+  orbit: 1,
+  eq_temp: 288,
+  disposition: "CONFIRMED",
+  star_distance: 0,
+  number_planets: 8,
+  stellar_temp: 5778,
+  surface_gravity: 9.807,
+  stellar_rad: 1,
+  stellar_mass: 1,
+  inclination: 23.5,
+  texture: "tierra.jpg",
+}

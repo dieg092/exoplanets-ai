@@ -84,6 +84,7 @@ export function useCosmicEntity(type: CosmicEntityType) {
   const scale = getScale(type, scaleData)
 
   const texture = getTexture(type, sceneData?.texture)
+
   const colorMap = useLoader(TextureLoader, texture)
 
   useFrame((state, delta) => (meshRef.current.rotation.x += rotationX * delta))

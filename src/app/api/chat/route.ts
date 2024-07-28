@@ -1,6 +1,6 @@
 import { convertToCoreMessages, streamText, tool, ToolInvocation } from "ai"
 import { createOpenAI } from "@ai-sdk/openai"
-import formatExoplanetsTexture from "@/data/formatExoplanetsTexture.json"
+import exoplanetsData from "@/data/exoplanets.json"
 import { z } from "zod"
 import {
   filterByConfirmed,
@@ -10,8 +10,10 @@ import {
   findExoplanet,
   getRandomExoplanet,
 } from "@/utils/dataActions"
+import { Exoplanet } from "@/definition"
 
 export const maxDuration = 30
+const exoplanets: Exoplanet[] = exoplanetsData as Exoplanet[]
 
 const systemConfig = `Eres un profesor de astronomía. 
 Guias al usuario en el aprendizaje sobre exoplanetas y de la tierra de forma divertida, gamificada y siempre das el siguiente paso si no tiene la iniciativa el usuario. 
@@ -22,9 +24,8 @@ Debes responder en el idioma en el que el usuario te pregunte.
 Se directo y asertivo.`
 
 interface Message {
-  role: "user" | "assistant"
+  role: "user" | "assistant" | "system"
   content: string
-  toolInvocations?: ToolInvocation[]
 }
 
 export async function POST(req: Request) {
@@ -55,7 +56,7 @@ export async function POST(req: Request) {
           execute: async () => {
             return {
               updateScene: false,
-              data: filterByConfirmed(formatExoplanetsTexture).length,
+              data: filterByConfirmed(exoplanets).length,
             }
           },
         }),
@@ -66,7 +67,7 @@ export async function POST(req: Request) {
           execute: async () => {
             return {
               updateScene: false,
-              data: filterByUnConfirmed(formatExoplanetsTexture).length,
+              data: filterByUnConfirmed(exoplanets).length,
             }
           },
         }),
@@ -77,7 +78,7 @@ export async function POST(req: Request) {
           execute: async () => {
             return {
               updateScene: true,
-              data: getRandomExoplanet(formatExoplanetsTexture),
+              data: getRandomExoplanet(exoplanets),
             }
           },
         }),
@@ -86,10 +87,7 @@ export async function POST(req: Request) {
             "Muestra el exoplaneta si el usuario introduce un nombre de un exoplaneta o si te dice que muestres la tierra, busca el que tiene nombre de Earth",
           parameters: z.object({ exoplanet_name: z.string() }),
           execute: async ({ exoplanet_name }) => {
-            const exoplanet = findExoplanet(
-              formatExoplanetsTexture,
-              exoplanet_name
-            )
+            const exoplanet = findExoplanet(exoplanets, exoplanet_name)
 
             if (exoplanet !== null) {
               return {
@@ -111,7 +109,7 @@ export async function POST(req: Request) {
           execute: async () => {
             return {
               updateScene: true,
-              data: filterByMajorOrbit(formatExoplanetsTexture),
+              data: filterByMajorOrbit(exoplanets),
             }
           },
         }),
@@ -121,7 +119,7 @@ export async function POST(req: Request) {
           execute: async () => {
             return {
               updateScene: true,
-              data: filterByMinorOrbit(formatExoplanetsTexture),
+              data: filterByMinorOrbit(exoplanets),
             }
           },
         }),

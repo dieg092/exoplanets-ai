@@ -15,7 +15,7 @@ const initialMessages: Message[] = [
 
 export const useChat = () => {
   const [openaiKey, setOpenAiKey] = useState<string>("")
-  const setSceneData = useChatStore(state => state.setSceneData)
+  const setSceneData = useChatStore((state) => state.setSceneData)
 
   const {
     messages,
@@ -35,18 +35,18 @@ export const useChat = () => {
   })
 
   const isInputDisabled = input.trim() === "" || isLoading
-  const conversation = messages.filter(message => !message.toolInvocations)
+  const conversation = messages.filter((message) => !message.toolInvocations)
 
   const sceneData = useMemo(() => {
-    const lastMessage = messages.findLast(message =>
+    const lastMessage = messages.findLast((message) =>
       message.toolInvocations?.some(
-        invocation => invocation.result?.updateScene === true
+        (invocation) => invocation.result?.updateScene === true
       )
     )
 
     if (lastMessage) {
       const invocation = lastMessage.toolInvocations?.find(
-        invocation => invocation.result?.updateScene === true
+        (invocation) => invocation.result?.updateScene === true
       )
       return invocation?.result?.data
     }

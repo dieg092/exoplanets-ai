@@ -13,7 +13,7 @@ const Page = () => {
       <Canvas
         className="bg-black w-full h-full"
         camera={{
-          far: 1000000,
+          far: 10000000,
         }}
       >
         <Scene />

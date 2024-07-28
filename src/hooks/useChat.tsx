@@ -9,13 +9,13 @@ const initialMessages: Message[] = [
     id: "welcome",
     role: "assistant",
     content:
-      "¡Hola! Estoy aquí para ser tu guía en el aprendizaje acerca de exoplanetas.",
+      "¡Hola! 🌍 Soy tu guía de exoplanetas. Por defecto te mostraré la Tierra y a medida que interactuamos, aprenderás sobre los exoplanetas. Puedes pedirme exoplanetas aleatorios 🪐, detalles específicos, ajustar la velocidad de rotación, mostrarte los confirmados por la NASA, etc. 🚀",
   },
 ]
 
 export const useChat = () => {
   const [openaiKey, setOpenAiKey] = useState<string>("")
-  const setSceneData = useChatStore(state => state.setSceneData)
+  const setSceneData = useChatStore((state) => state.setSceneData)
 
   const {
     messages,
@@ -35,19 +35,19 @@ export const useChat = () => {
   })
 
   const isInputDisabled = input.trim() === "" || isLoading
-  const conversation = messages.filter(message => !message.toolInvocations)
+  const conversation = messages.filter((message) => !message.toolInvocations)
 
   useEffect(() => {
     const sceneData = () => {
-      const lastMessage = messages.findLast(message =>
+      const lastMessage = messages.findLast((message) =>
         message.toolInvocations?.some(
-          invocation => invocation.result?.updateScene === true
+          (invocation) => invocation.result?.updateScene === true
         )
       )
 
       if (lastMessage) {
         const invocation = lastMessage.toolInvocations?.find(
-          invocation => invocation.result?.updateScene === true
+          (invocation) => invocation.result?.updateScene === true
         )
         return invocation?.result?.data
       }

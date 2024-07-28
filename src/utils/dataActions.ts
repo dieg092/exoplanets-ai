@@ -40,6 +40,30 @@ export const getRandomExoplanet = (array: Exoplanet[]) => {
   return confirmedExoplanets[randomIndex]
 }
 
+export const getListExoplanetsName = (array: Exoplanet[], quantity: number) => {
+  const exoplanetsNotNulls = array.filter(
+    (exoplanet) => exoplanet.name !== null
+  )
+
+  const index: number[] = []
+  while (index.length < quantity) {
+    const randomIndex = Math.floor(Math.random() * exoplanetsNotNulls.length)
+    if (!index.includes(randomIndex)) {
+      index.push(randomIndex)
+    }
+  }
+
+  const exoplanetsPartition = [...index].map(
+    (index) => exoplanetsNotNulls[index]
+  )
+
+  return exoplanetsPartition
+    .map((exoplanet) => {
+      return [exoplanet.name!]
+    })
+    .join(", ")
+}
+
 const nameFormat = (name: string) => {
   return name.toString().replaceAll(/[\s\-\_\.]/g, "")
 }
@@ -61,4 +85,23 @@ export const findExoplanet = (array: Exoplanet[], exoplanet_name: string) => {
   }
 
   return exoplanet
+}
+
+export const fastVelocity = (array: Exoplanet[], exoplanet_name: string) => {
+  exoplanet_name = nameFormat(exoplanet_name)
+  const exoplanet = array.find((exoplanet) => {
+    const exoplanet_name_trim = exoplanet.name
+      ? nameFormat(exoplanet.name)
+      : null
+
+    if (exoplanet_name === exoplanet_name_trim) {
+      return exoplanet_name_trim
+    }
+  })
+
+  if (!exoplanet) {
+    return null
+  }
+
+  return { ...exoplanet, period: 0.000694444 }
 }

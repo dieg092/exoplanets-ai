@@ -1,4 +1,4 @@
-import { FormEvent, KeyboardEvent, useEffect, useMemo, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import { Message, useChat as useChatAI } from "ai/react"
 import { useChatStore } from "@/store/chat"
 

@@ -15,7 +15,7 @@ const initialMessages: Message[] = [
 
 export const useChat = () => {
   const [openaiKey, setOpenAiKey] = useState<string>("")
-  const setSceneData = useChatStore((state) => state.setSceneData)
+  const setSceneData = useChatStore(state => state.setSceneData)
 
   const {
     messages,
@@ -35,28 +35,28 @@ export const useChat = () => {
   })
 
   const isInputDisabled = input.trim() === "" || isLoading
-  const conversation = messages.filter((message) => !message.toolInvocations)
-
-  const sceneData = useMemo(() => {
-    const lastMessage = messages.findLast((message) =>
-      message.toolInvocations?.some(
-        (invocation) => invocation.result?.updateScene === true
-      )
-    )
-
-    if (lastMessage) {
-      const invocation = lastMessage.toolInvocations?.find(
-        (invocation) => invocation.result?.updateScene === true
-      )
-      return invocation?.result?.data
-    }
-
-    return undefined
-  }, [messages])
+  const conversation = messages.filter(message => !message.toolInvocations)
 
   useEffect(() => {
-    setSceneData(sceneData)
-  }, [sceneData, setSceneData])
+    const sceneData = () => {
+      const lastMessage = messages.findLast(message =>
+        message.toolInvocations?.some(
+          invocation => invocation.result?.updateScene === true
+        )
+      )
+
+      if (lastMessage) {
+        const invocation = lastMessage.toolInvocations?.find(
+          invocation => invocation.result?.updateScene === true
+        )
+        return invocation?.result?.data
+      }
+
+      return undefined
+    }
+
+    setSceneData(sceneData())
+  }, [messages, setSceneData])
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !isInputDisabled)
@@ -79,7 +79,6 @@ export const useChat = () => {
     input,
     conversation,
     error,
-    sceneData,
     isLoading,
     isInputDisabled,
     stop,

@@ -102,3 +102,13 @@ export type ChatStoreType = {
   setIsChatHidden: (boolean: boolean) => void
   setSceneData: (exoplanet: Exoplanet) => void
 }
+
+// Audio
+export type AudioStoreType = {
+  audio: HTMLAudioElement | null
+  isPlaying: boolean
+  volume: number
+  setIsPlaying: (isPlaying: boolean) => void
+  setVolume: (volume: number) => void
+  setAudio: (audio: HTMLAudioElement) => void
+}

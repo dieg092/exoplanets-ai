@@ -1,6 +1,9 @@
 import { FormEvent, useEffect, useState } from "react"
 import { Message, useChat as useChatAI } from "ai/react"
 import { useChatStore } from "@/store/chat"
+import { useAudioStore } from "@/store/audio"
+import { saltMusic } from "@/utils/saltMusic"
+import { Exoplanet } from "@/definition"
 
 const ENV = process.env.NODE_ENV
 
@@ -15,7 +18,11 @@ const initialMessages: Message[] = [
 
 export const useChat = () => {
   const [openaiKey, setOpenAiKey] = useState<string>("")
+
+  const [oldSceneData, setOldSceneData] = useState<Exoplanet | null>(null)
+  const sceneData = useChatStore(state => state.sceneData)
   const setSceneData = useChatStore(state => state.setSceneData)
+  const audio = useAudioStore(store => store.audio)
 
   const {
     messages,
@@ -57,6 +64,22 @@ export const useChat = () => {
 
     setSceneData(sceneData())
   }, [messages, setSceneData])
+
+  useEffect(() => {
+    if (sceneData && audio) {
+      if (!oldSceneData || oldSceneData.name !== sceneData.name) {
+        // Apply new sound track
+        setOldSceneData(sceneData)
+
+        audio.pause()
+
+        audio.src = saltMusic()
+        audio.load()
+        audio.loop = true
+        audio.play()
+      }
+    }
+  }, [sceneData])
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !isInputDisabled)

@@ -6,12 +6,13 @@ const allowedPaths = [
   /^\/_next\/.*/,
   /^\/public\/.*/,
   /^\/textures\/.*/,
+  /^\/sound\/.*/,
 ]
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
-  const isPathAllowed = allowedPaths.some(path => {
+  const isPathAllowed = allowedPaths.some((path) => {
     if (typeof path === "string") {
       return pathname === path
     } else if (path instanceof RegExp) {

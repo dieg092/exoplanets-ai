@@ -5,6 +5,7 @@ import { Scene } from "@/components/3d/Scene"
 import { Canvas } from "@react-three/fiber"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
+import { AudioWrapper } from "@/components/audio/AudioWrapper"
 
 const Page = () => {
   const router = useRouter()
@@ -30,6 +31,7 @@ const Page = () => {
         <Scene />
       </Canvas>
       <ChatWrapper />
+      <AudioWrapper />
     </div>
   )
 }

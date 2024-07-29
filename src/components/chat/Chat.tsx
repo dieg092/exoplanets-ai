@@ -3,8 +3,8 @@ import { useChat } from "@/hooks/useChat"
 import ChatHeader from "./ChatHeader"
 import ChatBody from "./ChatBody"
 import ChatFooter from "./ChatFooter"
-import clsx from "clsx"
 import { useToggleChat } from "@/hooks/useToggleChat"
+import { cn } from "@/lib/utils"
 
 const classesArray = [
   "opacity-100",
@@ -32,7 +32,7 @@ const classesArray = [
   "border-opacity-20",
 ]
 
-const classes = clsx(classesArray.join(" "))
+const classes = cn(classesArray.join(" "))
 
 const Chat = () => {
   const {

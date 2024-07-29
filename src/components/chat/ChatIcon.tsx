@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import { BotMessageSquare } from "lucide-react"
-import clsx from "clsx"
 import { useToggleChat } from "@/hooks/useToggleChat"
+import { cn } from "@/lib/utils"
 
 const classesArray = [
   "hover:cursor-pointer",
@@ -21,7 +21,7 @@ const classesArray = [
   "border-white",
   "border-opacity-20",
 ]
-const classes = clsx(classesArray.join(" "))
+const classes = cn(classesArray.join(" "))
 
 export const ChatIcon = () => {
   const { isChatHidden, setIsChatHidden } = useToggleChat()

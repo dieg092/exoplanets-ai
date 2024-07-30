@@ -35,6 +35,7 @@ export type Exoplanet = {
   disposition: string
   texture: string
   inclination: number | null
+  rot_hours: number
 }
 
 export type CosmicEntityInclination = [number, number, number]
@@ -75,6 +76,7 @@ export type OldKeys =
   | "koi_smass"
   | "koi_pdisposition"
   | "koi_incl"
+  | "rot_hours"
 
 export type NewKeys =
   | "id"
@@ -93,6 +95,7 @@ export type NewKeys =
   | "stellar_mass"
   | "texture"
   | "inclination"
+  | "rot_hours"
 
 // zustand
 // Chat

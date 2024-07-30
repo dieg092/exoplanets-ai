@@ -21,6 +21,8 @@ const newObjectFields: Record<OldKeys, NewKeys> = {
   koi_srad: "stellar_rad",
   koi_smass: "stellar_mass",
   koi_pdisposition: "disposition",
+  koi_incl: "inclination",
+  rot_hours: "rot_hours",
 }
 
 export const formatJson = (json: Array<JsonApi>) => {
@@ -52,6 +54,7 @@ export const formatJson = (json: Array<JsonApi>) => {
     }
 
     formattedObject.texture = assignTexture(dataToTexture)
+    formattedObject.rot_hours = 24
     return formattedObject
   })
 
@@ -77,4 +80,5 @@ const earth = {
   stellar_mass: 1,
   inclination: 23.5,
   texture: "tierra.jpg",
+  rot_hours: 24,
 }

@@ -25,15 +25,29 @@ const TEXTURES: Record<CosmicEntityType, string> = {
   STAR: SUN_TEXTURE,
   UNIVERSE: UNIVERSE_TEXTURE,
 }
-const ROTATION_X: Record<CosmicEntityType, number> = {
-  PLANET: 0,
-  STAR: 0,
-  UNIVERSE: 0.0001,
+
+function getRotationX(type: CosmicEntityType) {
+  const PLANET = 0
+  const STAR = 0
+  const UNIVERSE = 0.0001
+
+  if (type === "PLANET") return PLANET
+  if (type === "STAR") return STAR
+  if (type === "UNIVERSE") return UNIVERSE
+
+  return 0
 }
-const ROTATION_Y: Record<CosmicEntityType, number> = {
-  PLANET: calculateRotationVelocity(),
-  STAR: 0.0005,
-  UNIVERSE: 0.02,
+
+function getRotationY(type: CosmicEntityType, hours: number) {
+  const PLANET = calculateRotationVelocity(hours)
+  const STAR = 0.0005
+  const UNIVERSE = 0.02
+
+  if (type === "PLANET") return PLANET
+  if (type === "STAR") return STAR
+  if (type === "UNIVERSE") return UNIVERSE
+
+  return 0
 }
 
 const INCLINATION: Record<CosmicEntityType, CosmicEntityInclination> = {
@@ -74,8 +88,8 @@ export function useCosmicEntity(type: CosmicEntityType) {
   const [, setHover] = useState(false)
   const [active, setActive] = useState(false)
 
-  const rotationX = ROTATION_X[type]
-  const rotationY = ROTATION_Y[type]
+  const rotationX = getRotationX(type)
+  const rotationY = getRotationY(type, sceneData?.rot_hours ?? 24)
 
   const side: THREE.Side = type === "UNIVERSE" ? 1 : 0
   const inclination = getInclination(type, sceneData?.inclination)

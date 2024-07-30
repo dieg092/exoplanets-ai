@@ -1,4 +1,3 @@
-import React from "react"
 import { ThreeElements } from "@react-three/fiber"
 import { CosmicEntityType } from "@/definition"
 import { useCosmicEntity } from "@/hooks/useCosmicEntity"

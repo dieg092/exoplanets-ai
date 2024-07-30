@@ -33,7 +33,7 @@ const ROTATION_X: Record<CosmicEntityType, number> = {
 const ROTATION_Y: Record<CosmicEntityType, number> = {
   PLANET: calculateRotationVelocity(),
   STAR: 0.0005,
-  UNIVERSE: 0.0001,
+  UNIVERSE: 0.02,
 }
 
 const INCLINATION: Record<CosmicEntityType, CosmicEntityInclination> = {
@@ -87,8 +87,12 @@ export function useCosmicEntity(type: CosmicEntityType) {
 
   const colorMap = useLoader(TextureLoader, texture)
 
-  useFrame((state, delta) => (meshRef.current.rotation.x += rotationX * delta))
-  useFrame((state, delta) => (meshRef.current.rotation.y += rotationY * delta))
+  useFrame((state, delta) => {
+    if (meshRef && meshRef.current) {
+      meshRef.current.rotation.x += rotationX * delta
+      meshRef.current.rotation.y += rotationY * delta
+    }
+  })
 
   return {
     meshRef,

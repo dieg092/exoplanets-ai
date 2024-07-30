@@ -7,10 +7,12 @@ import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import { AudioWrapper } from "@/components/audio/AudioWrapper"
 import { useToggleChat } from "@/hooks/useToggleChat"
+import { useToast } from "@/components/ui/use-toast"
 
 const Page = () => {
   const router = useRouter()
   const { isChatHidden } = useToggleChat()
+  const { toast } = useToast()
 
   useEffect(() => {
     const { searchParams } = new URL(window.location.href)
@@ -18,6 +20,14 @@ const Page = () => {
       router.replace("/")
     }
   }, [router])
+
+  useEffect(() => {
+    setTimeout(() => {
+      toast({
+        description: "Recomendamos ver en pantalla completa - F11",
+      })
+    }, 1000)
+  }, [])
 
   return (
     <div className="w-full h-screen overflow-hidden relative">

@@ -3,6 +3,10 @@ import exoplanetsData from "@/data/exoplanets.json"
 
 const exoplanets: Exoplanet[] = exoplanetsData as Exoplanet[]
 
+const nameFormat = (name: string) => {
+  return name.toString().replaceAll(/[\s\-\_\.]/g, "")
+}
+
 const checkExoplanet = (exoplanet_name: string) => {
   exoplanet_name = nameFormat(exoplanet_name)
 
@@ -79,10 +83,6 @@ export const getListExoplanetsName = (quantity: number) => {
       return [exoplanet.name!]
     })
     .join(", ")
-}
-
-const nameFormat = (name: string) => {
-  return name.toString().replaceAll(/[\s\-\_\.]/g, "")
 }
 
 export const findExoplanet = (exoplanet_name: string) => {

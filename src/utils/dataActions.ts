@@ -103,5 +103,5 @@ export const fastVelocity = (array: Exoplanet[], exoplanet_name: string) => {
     return null
   }
 
-  return { ...exoplanet, period: 0.000694444 }
+  return { ...exoplanet, period: 0.000694444, rot_hours: 0.166667 }
 }

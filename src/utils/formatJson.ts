@@ -5,6 +5,7 @@ import type {
   CosmicEntityTexture,
 } from "@/definition"
 import { assignTexture } from "./assignTexture"
+import { ROT_HOURS_EARTH } from "@/config"
 
 const newObjectFields: Record<OldKeys, NewKeys> = {
   kepid: "id",
@@ -54,7 +55,7 @@ export const formatJson = (json: Array<JsonApi>) => {
     }
 
     formattedObject.texture = assignTexture(dataToTexture)
-    formattedObject.rot_hours = 24
+    formattedObject.rot_hours = ROT_HOURS_EARTH
     return formattedObject
   })
 
@@ -80,5 +81,5 @@ const earth = {
   stellar_mass: 1,
   inclination: 23.5,
   texture: "tierra.jpg",
-  rot_hours: 24,
+  rot_hours: ROT_HOURS_EARTH,
 }

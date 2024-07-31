@@ -8,6 +8,7 @@ import {
   IMAGE_EXOPLANET_PATH,
   IMAGE_TEXTURE_PATH,
   INCLINATION_EARTH_ANGLE,
+  ROT_HOURS_EARTH,
   SOLAR_RADIUS,
 } from "@/config"
 import { CosmicEntityInclination, CosmicEntityType } from "@/definition"
@@ -19,6 +20,7 @@ const SUN_TEXTURE = `${IMAGE_EXOPLANET_PATH}/sol.jpg`
 const UNIVERSE_TEXTURE = `${IMAGE_TEXTURE_PATH}universo.jpg`
 const EARTH_TEXTURE = `${IMAGE_EXOPLANET_PATH}/tierra.jpg`
 const UNIVERSE_RADIUS = 10000000
+const ROT_HOURS_DEFAULT = 0
 
 const TEXTURES: Record<CosmicEntityType, string> = {
   PLANET: EARTH_TEXTURE,
@@ -26,28 +28,19 @@ const TEXTURES: Record<CosmicEntityType, string> = {
   UNIVERSE: UNIVERSE_TEXTURE,
 }
 
-function getRotationX(type: CosmicEntityType) {
-  const PLANET = 0
-  const STAR = 0
-  const UNIVERSE = 0.0001
-
-  if (type === "PLANET") return PLANET
-  if (type === "STAR") return STAR
-  if (type === "UNIVERSE") return UNIVERSE
-
-  return 0
+function getRotationY(entityType: CosmicEntityType, hours: number): number {
+  const ROTATION_Y: Record<CosmicEntityType, number> = {
+    PLANET: calculateRotationVelocity(hours),
+    STAR: 0.0005,
+    UNIVERSE: 0.0001,
+  }
+  return ROTATION_Y[entityType] ?? ROT_HOURS_DEFAULT
 }
 
-function getRotationY(type: CosmicEntityType, hours: number) {
-  const PLANET = calculateRotationVelocity(hours)
-  const STAR = 0.0005
-  const UNIVERSE = 0.02
-
-  if (type === "PLANET") return PLANET
-  if (type === "STAR") return STAR
-  if (type === "UNIVERSE") return UNIVERSE
-
-  return 0
+const ROTATION_X: Record<CosmicEntityType, number> = {
+  PLANET: 0,
+  STAR: 0,
+  UNIVERSE: 0.0001,
 }
 
 const INCLINATION: Record<CosmicEntityType, CosmicEntityInclination> = {
@@ -88,8 +81,8 @@ export function useCosmicEntity(type: CosmicEntityType) {
   const [, setHover] = useState(false)
   const [active, setActive] = useState(false)
 
-  const rotationX = getRotationX(type)
-  const rotationY = getRotationY(type, sceneData?.rot_hours ?? 24)
+  const rotationX = ROTATION_X[type] ?? ROT_HOURS_DEFAULT
+  const rotationY = getRotationY(type, sceneData?.rot_hours ?? ROT_HOURS_EARTH)
 
   const side: THREE.Side = type === "UNIVERSE" ? 1 : 0
   const inclination = getInclination(type, sceneData?.inclination)

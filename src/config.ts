@@ -6,3 +6,4 @@ export const UNIT = 1000
 export const INCLINATION_EARTH_ANGLE = 23.5
 export const EARTH_RADIUS = 6371 / UNIT
 export const SOLAR_RADIUS = 695700 / UNIT
+export const ROT_HOURS_EARTH = 24

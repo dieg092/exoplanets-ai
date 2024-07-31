@@ -106,6 +106,7 @@ export function useCosmicEntity(type: CosmicEntityType) {
     colorMap,
     active,
     inclination,
+    rotationY,
     side,
     scale,
     setActive,

@@ -1,8 +1,8 @@
-import { convertToCoreMessages, streamText, tool, ToolInvocation } from "ai"
+import { convertToCoreMessages, streamText, tool } from "ai"
 import { createOpenAI } from "@ai-sdk/openai"
-import exoplanetsData from "@/data/exoplanets.json"
 import { z } from "zod"
 import {
+  fastOrbit,
   fastVelocity,
   filterByConfirmed,
   filterByMajorOrbit,
@@ -12,10 +12,8 @@ import {
   getListExoplanetsName,
   getRandomExoplanet,
 } from "@/utils/dataActions"
-import { Exoplanet } from "@/definition"
 
 export const maxDuration = 30
-const exoplanets: Exoplanet[] = exoplanetsData as Exoplanet[]
 
 const systemConfig = `Eres un profesor de astronomía. Tu rol es guiar al usuario en el aprendizaje de los exoplanetas y también de la información de la tierra de forma divertida mostrando emojis en cada explicación y siempre debes dar el siguiente paso si el usuario no tiene iniciativa en preguntar. Ten en cuenta que todos los exoplanetas giran a velocidad de la vida real, asi que debes preguntarle al usuario no solo si quiere ver otros exoplanetas, si no, también si quiere aumentar la velocidad de giro o mantenerla en estado normal o si quiere que le muestres una lista de los exoplanetas disponibles. 
 Te ayudas para explicar y enseñar de un escenario en 3D del universo que se va moviendo a cada exoplaneta según tus respuestas. 
@@ -57,7 +55,7 @@ export async function POST(req: Request) {
           execute: async () => {
             return {
               updateScene: false,
-              data: filterByConfirmed(exoplanets).length,
+              data: filterByConfirmed().length,
             }
           },
         }),
@@ -68,7 +66,7 @@ export async function POST(req: Request) {
           execute: async () => {
             return {
               updateScene: false,
-              data: filterByUnConfirmed(exoplanets).length,
+              data: filterByUnConfirmed().length,
             }
           },
         }),
@@ -79,37 +77,16 @@ export async function POST(req: Request) {
           execute: async () => {
             return {
               updateScene: true,
-              data: getRandomExoplanet(exoplanets),
-            }
-          },
-        }),
-        exoplanet_find: tool({
-          description:
-            "Muestra el exoplaneta si el usuario introduce un nombre de un exoplaneta o si te dice que muestres la tierra, busca el que tiene nombre de Earth",
-          parameters: z.object({ exoplanet_name: z.string() }),
-          execute: async ({ exoplanet_name }) => {
-            const exoplanet = findExoplanet(exoplanets, exoplanet_name)
-
-            if (exoplanet !== null) {
-              return {
-                updateScene: true,
-                data: exoplanet,
-              }
-            } else {
-              // Exoplanet not found
-              return {
-                updateScene: false,
-                data: "No se ha encontrado el exoplaneta solicitado",
-              }
+              data: getRandomExoplanet(),
             }
           },
         }),
         exoplanet_standar_velocity: tool({
           description:
-            "Ajusta la velocidad orbital del exoplaneta que se ha mostrado o la velocidad de giro del exoplaneta mostrado a una velocidad baja o velocidad normal",
+            "Ajusta la velocidad de rotación en si mismo del exoplaneta que se ha mostrado a velocidad normal. No modifica la orbita sobre su estrella",
           parameters: z.object({ exoplanet_name: z.string() }),
           execute: async ({ exoplanet_name }) => {
-            const exoplanet = findExoplanet(exoplanets, exoplanet_name)
+            const exoplanet = findExoplanet(exoplanet_name)
 
             if (exoplanet !== null) {
               return {
@@ -127,10 +104,31 @@ export async function POST(req: Request) {
         }),
         exoplanet_fast_velocity: tool({
           description:
-            "Ajusta la velocidad orbital del exoplaneta que se ha mostrado o la velocidad de giro del exoplaneta mostrado a una velocidad mas rápida",
+            "Ajusta la velocidad cualquier parámetro del exoplaneta a su estado normal",
           parameters: z.object({ exoplanet_name: z.string() }),
           execute: async ({ exoplanet_name }) => {
-            const exoplanet = fastVelocity(exoplanets, exoplanet_name)
+            const exoplanet = fastVelocity(exoplanet_name)
+
+            if (exoplanet !== null) {
+              return {
+                updateScene: true,
+                data: exoplanet,
+              }
+            } else {
+              // Exoplanet not found
+              return {
+                updateScene: false,
+                data: "No se ha encontrado el exoplaneta solicitado",
+              }
+            }
+          },
+        }),
+        exoplanet_rise_orbit_velocity: tool({
+          description:
+            "Aumenta la velocidad de órbita del exoplaneta con su estrella",
+          parameters: z.object({ exoplanet_name: z.string() }),
+          execute: async ({ exoplanet_name }) => {
+            const exoplanet = fastOrbit(exoplanet_name)
 
             if (exoplanet !== null) {
               return {
@@ -155,17 +153,18 @@ export async function POST(req: Request) {
               updateScene: false,
               data:
                 "Al final colocale un emoji a cada exoplaneta y di que es una lista corta, que si quiere puedes generar nuevamente la lista" +
-                getListExoplanetsName(exoplanets, 10),
+                getListExoplanetsName(10),
             }
           },
         }),
+
         exoplanets_major_orbit: tool({
           description: "Muestra el exoplaneta con mayor tiempo de orbita",
           parameters: z.object({}),
           execute: async () => {
             return {
               updateScene: true,
-              data: filterByMajorOrbit(exoplanets),
+              data: filterByMajorOrbit(),
             }
           },
         }),
@@ -175,7 +174,7 @@ export async function POST(req: Request) {
           execute: async () => {
             return {
               updateScene: true,
-              data: filterByMinorOrbit(exoplanets),
+              data: filterByMinorOrbit(),
             }
           },
         }),

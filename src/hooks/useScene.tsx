@@ -12,19 +12,21 @@ import { UNIT, EARTH_RADIUS, INCLINATION_EARTH_ANGLE } from "@/config"
 
 const EARTH_SOLAR_DISTANCE = 150000000 / UNIT
 const LINE_POINTS = 1000 // total Points in curve
+const EARTH_ORBIT = 365
 
 export const useScene = () => {
   const orbitControls = useRef<any>(null)
   const exoplanetRef = useRef<any>(null)
   const { sceneData } = useChatStore()
   const [orbitSpeed, setOrbitSpeed] = useState(0.01)
-
   // First reload
   const curve = useMemo(() => {
     const points = []
     let starDistance = EARTH_SOLAR_DISTANCE
 
-    setOrbitSpeed(calculateOrbitTime(sceneData?.period ?? 365, LINE_POINTS))
+    setOrbitSpeed(
+      calculateOrbitTime(sceneData?.period ?? EARTH_ORBIT, LINE_POINTS)
+    )
 
     if (sceneData && sceneData.orbit) {
       starDistance = calculateStarDistance(sceneData?.orbit, UNIT)

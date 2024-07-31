@@ -1,16 +1,34 @@
 import type { Exoplanet } from "@/definition"
+import exoplanetsData from "@/data/exoplanets.json"
 
-export const filterByConfirmed = (array: Exoplanet[]) => {
-  return array.filter((item) => item.archive_disposition === "CONFIRMED")
+const exoplanets: Exoplanet[] = exoplanetsData as Exoplanet[]
+
+const checkExoplanet = (exoplanet_name: string) => {
+  exoplanet_name = nameFormat(exoplanet_name)
+
+  const exoplanet = exoplanets.find(exoplanet => {
+    const exoplanet_name_trim = exoplanet.name
+      ? nameFormat(exoplanet.name)
+      : null
+
+    if (exoplanet_name === exoplanet_name_trim) {
+      return exoplanet_name_trim
+    }
+  })
+  return exoplanet
 }
 
-export const filterByUnConfirmed = (array: Exoplanet[]) => {
-  return array.filter((item) => item.archive_disposition !== "CONFIRMED")
+export const filterByConfirmed = () => {
+  return exoplanets.filter(item => item.archive_disposition === "CONFIRMED")
 }
 
-export const filterByMajorOrbit = (array: Exoplanet[]) => {
-  const exoplanetsNotNull = array.filter(
-    (exoplanet) => exoplanet.period !== null
+export const filterByUnConfirmed = () => {
+  return exoplanets.filter(item => item.archive_disposition !== "CONFIRMED")
+}
+
+export const filterByMajorOrbit = () => {
+  const exoplanetsNotNull = exoplanets.filter(
+    exoplanet => exoplanet.period !== null
   )
 
   return exoplanetsNotNull.reduce(
@@ -19,9 +37,9 @@ export const filterByMajorOrbit = (array: Exoplanet[]) => {
   )
 }
 
-export const filterByMinorOrbit = (array: Exoplanet[]) => {
-  const exoplanetsNotNull = array.filter(
-    (exoplanet) => exoplanet.period !== null
+export const filterByMinorOrbit = () => {
+  const exoplanetsNotNull = exoplanets.filter(
+    exoplanet => exoplanet.period !== null
   )
 
   return exoplanetsNotNull.reduce(
@@ -30,8 +48,9 @@ export const filterByMinorOrbit = (array: Exoplanet[]) => {
   )
 }
 
-export const getRandomExoplanet = (array: Exoplanet[]) => {
-  const confirmedExoplanets = filterByConfirmed(array)
+export const getRandomExoplanet = () => {
+  const confirmedExoplanets = filterByConfirmed()
+
   if (confirmedExoplanets.length === 0) {
     return null
   }
@@ -40,9 +59,9 @@ export const getRandomExoplanet = (array: Exoplanet[]) => {
   return confirmedExoplanets[randomIndex]
 }
 
-export const getListExoplanetsName = (array: Exoplanet[], quantity: number) => {
-  const exoplanetsNotNulls = array.filter(
-    (exoplanet) => exoplanet.name !== null
+export const getListExoplanetsName = (quantity: number) => {
+  const exoplanetsNotNulls = exoplanets.filter(
+    exoplanet => exoplanet.name !== null
   )
 
   const index: number[] = []
@@ -53,12 +72,10 @@ export const getListExoplanetsName = (array: Exoplanet[], quantity: number) => {
     }
   }
 
-  const exoplanetsPartition = [...index].map(
-    (index) => exoplanetsNotNulls[index]
-  )
+  const exoplanetsPartition = [...index].map(index => exoplanetsNotNulls[index])
 
   return exoplanetsPartition
-    .map((exoplanet) => {
+    .map(exoplanet => {
       return [exoplanet.name!]
     })
     .join(", ")
@@ -68,40 +85,19 @@ const nameFormat = (name: string) => {
   return name.toString().replaceAll(/[\s\-\_\.]/g, "")
 }
 
-export const findExoplanet = (array: Exoplanet[], exoplanet_name: string) => {
-  exoplanet_name = nameFormat(exoplanet_name)
-  const exoplanet = array.find((exoplanet) => {
-    const exoplanet_name_trim = exoplanet.name
-      ? nameFormat(exoplanet.name)
-      : null
+export const findExoplanet = (exoplanet_name: string) => {
+  const exoplanet = checkExoplanet(exoplanet_name)
 
-    if (exoplanet_name === exoplanet_name_trim) {
-      return exoplanet_name_trim
-    }
-  })
-
-  if (!exoplanet) {
-    return null
-  }
-
-  return exoplanet
+  return exoplanet ?? null
 }
 
-export const fastVelocity = (array: Exoplanet[], exoplanet_name: string) => {
-  exoplanet_name = nameFormat(exoplanet_name)
-  const exoplanet = array.find((exoplanet) => {
-    const exoplanet_name_trim = exoplanet.name
-      ? nameFormat(exoplanet.name)
-      : null
+export const fastVelocity = (exoplanet_name: string) => {
+  const exoplanet = checkExoplanet(exoplanet_name)
+  return exoplanet ? { ...exoplanet, rot_hours: 0.006667 } : null
+}
 
-    if (exoplanet_name === exoplanet_name_trim) {
-      return exoplanet_name_trim
-    }
-  })
+export const fastOrbit = (exoplanet_name: string) => {
+  const exoplanet = checkExoplanet(exoplanet_name)
 
-  if (!exoplanet) {
-    return null
-  }
-
-  return { ...exoplanet, period: 0.000694444, rot_hours: 0.166667 }
+  return exoplanet ? { ...exoplanet, period: 0.000666 } : null
 }

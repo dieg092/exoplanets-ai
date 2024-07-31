@@ -20,11 +20,11 @@ export const useChat = () => {
   const [openaiKey, setOpenAiKey] = useState<string>("")
 
   const [oldSceneData, setOldSceneData] = useState<Exoplanet | null>(null)
-  const sceneData = useChatStore((state) => state.sceneData)
-  const setSceneData = useChatStore((state) => state.setSceneData)
-  const audio = useAudioStore((store) => store.audio)
-  const isPlaying = useAudioStore((store) => store.isPlaying)
-  const setIsPlaying = useAudioStore((store) => store.setIsPlaying)
+  const sceneData = useChatStore(state => state.sceneData)
+  const setSceneData = useChatStore(state => state.setSceneData)
+  const audio = useAudioStore(store => store.audio)
+  const isPlaying = useAudioStore(store => store.isPlaying)
+  const setIsPlaying = useAudioStore(store => store.setIsPlaying)
 
   const {
     messages,
@@ -44,19 +44,19 @@ export const useChat = () => {
   })
 
   const isInputDisabled = input.trim() === "" || isLoading
-  const conversation = messages.filter((message) => !message.toolInvocations)
+  const conversation = messages.filter(message => !message.toolInvocations)
 
   useEffect(() => {
     const sceneData = () => {
-      const lastMessage = messages.findLast((message) =>
+      const lastMessage = messages.findLast(message =>
         message.toolInvocations?.some(
-          (invocation) => invocation.result?.updateScene === true
+          invocation => invocation.result?.updateScene === true
         )
       )
 
       if (lastMessage) {
         const invocation = lastMessage.toolInvocations?.find(
-          (invocation) => invocation.result?.updateScene === true
+          invocation => invocation.result?.updateScene === true
         )
         return invocation?.result?.data
       }

@@ -28,15 +28,6 @@ const TEXTURES: Record<CosmicEntityType, string> = {
   UNIVERSE: UNIVERSE_TEXTURE,
 }
 
-function getRotationY(entityType: CosmicEntityType, hours: number): number {
-  const ROTATION_Y: Record<CosmicEntityType, number> = {
-    PLANET: calculateRotationVelocity(hours),
-    STAR: 0.0005,
-    UNIVERSE: 0.0001,
-  }
-  return ROTATION_Y[entityType] ?? ROT_HOURS_DEFAULT
-}
-
 const ROTATION_X: Record<CosmicEntityType, number> = {
   PLANET: 0,
   STAR: 0,
@@ -47,6 +38,15 @@ const INCLINATION: Record<CosmicEntityType, CosmicEntityInclination> = {
   PLANET: [calculateInclinationAngle(INCLINATION_EARTH_ANGLE), 0, 0],
   STAR: [0, 0, 0],
   UNIVERSE: [0, 0, 0],
+}
+
+function getRotationY(entityType: CosmicEntityType, hours: number): number {
+  const ROTATION_Y: Record<CosmicEntityType, number> = {
+    PLANET: calculateRotationVelocity(hours),
+    STAR: 0.0005,
+    UNIVERSE: 0.0001,
+  }
+  return ROTATION_Y[entityType] ?? ROT_HOURS_DEFAULT
 }
 
 function getTexture(type: CosmicEntityType, texture?: string): string {

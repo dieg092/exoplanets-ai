@@ -1,44 +1,72 @@
 import { CosmicEntityTexture, Texture } from "@/definition"
 
+type TemperatureRange = {
+  min: number
+  max: number
+  image: Texture
+}
+
+const ROCKY_ATHMOSPHERE_DEFAULT = "basalto_regolito.jpg"
+const ROCKY_DEFAULT = "co2_acidosulfurico.jpg"
+const GASEOUS_DEFAULT = "helio_amoniaco.jpg"
+
+const GAESOUS_EXOPLANET: TemperatureRange[] = [
+  { min: 1501, max: Infinity, image: "co2_acidosulfurico.jpg" },
+  { min: 1001, max: 1500, image: "helio_amoniaco.jpg" },
+  { min: 601, max: 1000, image: "helio_amoniaco_nublina.jpg" },
+  { min: 274, max: 600, image: "hidrogeno_metano_nieblina.jpg" },
+  { min: -Infinity, max: 273, image: "hidrogeno_metano.jpg" },
+]
+
+const ROCKY_EXOPLANET: TemperatureRange[] = [
+  { min: -Infinity, max: 273, image: "hielo_silicatos.jpg" },
+  { min: 274, max: 373, image: "silicatos_regolito.jpg" },
+  { min: 374, max: 1000, image: "hematita_arenisca.jpg" },
+  { min: 1001, max: 1500, image: "basalto_regolito.jpg" },
+  { min: 1501, max: Infinity, image: "basalto_anortosita.jpg" },
+]
+
+const ROCY_ATMOSPHERE_EXOPLANET: TemperatureRange[] = [
+  { min: -Infinity, max: 273, image: "hielo_silicatos.jpg" },
+  { min: 274, max: 373, image: "nuves.jpg" },
+  { min: 374, max: 1000, image: "hematita_arenisca.jpg" },
+  { min: 1001, max: 1500, image: "basalto_riolita.jpg" },
+  { min: 1501, max: Infinity, image: "co2_acidosulfurico.jpg" },
+]
+
+const getTexture = (
+  temperature: number | null,
+  lookup: TemperatureRange[],
+  defaultImage: Texture
+): Texture => {
+  if (temperature === null) return defaultImage
+  const entry = lookup.find(
+    range => temperature >= range.min && temperature <= range.max
+  )
+
+  return entry ? entry.image : defaultImage
+}
+
 const getGaseousTexture = (temperature: number | null): Texture => {
-  if (!temperature) return "helio_amoniaco.jpg"
-
-  if (temperature > 1500) return "co2_acidosulfurico.jpg"
-  if (temperature > 1000) return "helio_amoniaco.jpg"
-  if (temperature > 600) return "helio_amoniaco_nublina.jpg"
-  if (temperature > 273) return "hidrogeno_metano_nieblina.jpg"
-
-  return "hidrogeno_metano.jpg"
+  return getTexture(temperature, GAESOUS_EXOPLANET, GASEOUS_DEFAULT)
 }
 
 const getRockyTexture = (
   temperature: number | null,
   isRockyWithoutAtmosphere: boolean
 ): Texture => {
-  if (isRockyWithoutAtmosphere) {
-    if (!temperature) return "basalto_regolito.jpg"
+  const image = isRockyWithoutAtmosphere
+    ? ROCKY_EXOPLANET
+    : ROCY_ATMOSPHERE_EXOPLANET
+  const defaultImage = isRockyWithoutAtmosphere
+    ? ROCKY_ATHMOSPHERE_DEFAULT
+    : ROCKY_DEFAULT
 
-    if (temperature <= 273) return "hielo_silicatos.jpg"
-    if (temperature <= 373) return "silicatos_regolito.jpg"
-    if (temperature <= 1000) return "hematita_arenisca.jpg"
-    if (temperature <= 1500) return "basalto_regolito.jpg"
-
-    return "basalto_anortosita.jpg"
-  }
-
-  if (!temperature) return "co2_acidosulfurico.jpg"
-
-  if (temperature <= 273) return "hielo_silicatos.jpg"
-  if (temperature <= 373) return "nuves.jpg"
-  if (temperature <= 1000) return "hematita_arenisca.jpg"
-  if (temperature <= 1500) return "basalto_riolita.jpg"
-
-  return "co2_acidosulfurico.jpg"
+  return getTexture(temperature, image, defaultImage)
 }
 
 export const assignTexture = (exoplanet: CosmicEntityTexture): Texture => {
   const { eq_temp, rad, star_distance } = exoplanet
-
   const isGaseous = rad !== null && rad > 10
   const isRockyWithoutAtmosphere =
     rad !== null && star_distance !== null && rad <= 1.5 && star_distance < 0.1

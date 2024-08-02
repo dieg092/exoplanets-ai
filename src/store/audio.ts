@@ -1,8 +1,7 @@
 import { AudioStoreType } from "@/definition"
-import { saltMusic } from "@/utils/saltMusic"
 import { create } from "zustand"
 
-export const useAudioStore = create<AudioStoreType>((set) => ({
+export const useAudioStore = create<AudioStoreType>(set => ({
   audio: null,
   isPlaying: true,
   volume: 1,

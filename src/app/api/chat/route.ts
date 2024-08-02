@@ -12,6 +12,7 @@ import {
   getListExoplanetsName,
   getRandomExoplanet,
 } from "@/utils/toolActions"
+import { defaultTo, isEmpty } from "lodash"
 
 export const maxDuration = 30
 
@@ -31,7 +32,7 @@ export async function POST(req: Request) {
   const { messages, api_key }: { messages: Message[]; api_key: string } =
     await req.json()
 
-  const apiKey = api_key ? api_key : process.env.API_OPENAI_KEY
+  const apiKey = !isEmpty(api_key) ? api_key : process.env.API_OPENAI_KEY
 
   // Crear instancia de OpenAI
   const openai = createOpenAI({
@@ -75,9 +76,15 @@ export async function POST(req: Request) {
             "Muestra un exoplaneta random de la base de datos de la NASA",
           parameters: z.object({}),
           execute: async () => {
+            const lastToolMessage = messages.findLast(
+              item => item.toolInvocations
+            )
+            const exoplanetTexture =
+              lastToolMessage?.toolInvocations[0].result.texture
+
             return {
               updateScene: true,
-              data: getRandomExoplanet(),
+              data: getRandomExoplanet(exoplanetTexture),
             }
           },
         }),

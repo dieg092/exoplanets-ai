@@ -52,15 +52,19 @@ export const filterByMinorOrbit = () => {
   )
 }
 
-export const getRandomExoplanet = () => {
+export const getRandomExoplanet = (texture: string) => {
   const confirmedExoplanets = filterByConfirmed()
 
   if (confirmedExoplanets.length === 0) {
     return null
   }
 
-  const randomIndex = Math.floor(Math.random() * confirmedExoplanets.length)
-  return confirmedExoplanets[randomIndex]
+  const differentExoplanets = confirmedExoplanets.filter(
+    item => item.texture !== texture
+  )
+
+  const randomIndex = Math.floor(Math.random() * differentExoplanets.length)
+  return differentExoplanets[randomIndex]
 }
 
 export const getListExoplanetsName = (quantity: number) => {

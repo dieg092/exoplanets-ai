@@ -76,15 +76,15 @@ export async function POST(req: Request) {
             "Muestra un exoplaneta random de la base de datos de la NASA",
           parameters: z.object({}),
           execute: async () => {
-            const lastToolMessage = messages.findLast(
-              item => item.toolInvocations
-            )
-            const exoplanetTexture =
-              lastToolMessage?.toolInvocations[0].result.texture
+            // const lastToolMessage = messages.findLast(
+            //   item => item.toolInvocations
+            // )
+            // const exoplanetTexture =
+            //   lastToolMessage?.toolInvocations[0].result.texture
 
             return {
               updateScene: true,
-              data: getRandomExoplanet(exoplanetTexture),
+              data: getRandomExoplanet(),
             }
           },
         }),

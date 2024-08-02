@@ -63,8 +63,15 @@ export const getRandomExoplanet = (texture: string) => {
     item => item.texture !== texture
   )
 
-  const randomIndex = Math.floor(Math.random() * differentExoplanets.length)
-  return differentExoplanets[randomIndex]
+  if (differentExoplanets.length === 0) {
+    return null
+  }
+
+  const randomNumber = Math.floor(Math.random() * 10) + 1
+
+  const index = (randomNumber - 1) % differentExoplanets.length
+
+  return differentExoplanets[index]
 }
 
 export const getListExoplanetsName = (quantity: number) => {

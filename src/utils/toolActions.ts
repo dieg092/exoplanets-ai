@@ -53,14 +53,14 @@ export const filterByMinorOrbit = () => {
 }
 
 export const getRandomExoplanet = (texture: string) => {
-  // const confirmedExoplanets = filterByConfirmed()
+  const confirmedExoplanets = filterByConfirmed()
 
-  // if (confirmedExoplanets.length === 0) {
-  //   return null
-  // }
+  if (confirmedExoplanets.length === 0) {
+    return null
+  }
 
   const differentExoplanets = exoplanets.filter(
-    item => item.texture !== texture && item.archive_disposition === "CONFIRMED"
+    item => item.texture !== texture
   )
 
   const randomIndex = Math.floor(Math.random() * differentExoplanets.length)

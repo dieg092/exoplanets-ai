@@ -42,7 +42,7 @@ export async function POST(req: Request) {
 
   try {
     const result = await streamText({
-      model: openai.chat("gpt-3.5-turbo"),
+      model: openai.chat("gpt-4o"),
       system: systemConfig,
       messages: convertToCoreMessages(messages),
       temperature: 0,

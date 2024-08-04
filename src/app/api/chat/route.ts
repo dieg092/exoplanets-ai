@@ -47,7 +47,6 @@ export async function POST(req: Request) {
       messages: convertToCoreMessages(messages),
       temperature: 0,
       topP: 1,
-
       tools: {
         exoplanets_confirmed: tool({
           description:
@@ -90,7 +89,7 @@ export async function POST(req: Request) {
         }),
         exoplanet_standar_velocity: tool({
           description:
-            "Ajusta cualquier parámetro del exoplaneta a su estado normal o busca el exoplaneta que dijo el usuario",
+            "Ajusta cualquier parámetro del exoplaneta del que se está hablando a su estado normal o busca el exoplaneta que solicitó el usuario",
           parameters: z.object({ exoplanet_name: z.string() }),
           execute: async ({ exoplanet_name }) => {
             const exoplanet = findExoplanet(exoplanet_name)
@@ -111,7 +110,7 @@ export async function POST(req: Request) {
         }),
         exoplanet_fast_velocity: tool({
           description:
-            "Ajusta la velocidad de rotación en si mismo del exoplaneta que se ha mostrado a velocidad normal. No modifica la orbita sobre su estrella",
+            "Aumenta la velocidad de rotación del exoplaneta del que se está hablando.",
           parameters: z.object({ exoplanet_name: z.string() }),
           execute: async ({ exoplanet_name }) => {
             const exoplanet = fastVelocity(exoplanet_name)
@@ -132,7 +131,7 @@ export async function POST(req: Request) {
         }),
         exoplanet_rise_orbit_velocity: tool({
           description:
-            "Aumenta la velocidad de órbita del exoplaneta alrededor de su estrella",
+            "Aumenta la velocidad de órbita del exoplaneta del que se está hablando alrededor de su estrella",
           parameters: z.object({ exoplanet_name: z.string() }),
           execute: async ({ exoplanet_name }) => {
             const exoplanet = fastOrbit(exoplanet_name)

@@ -7,7 +7,7 @@ import { Toaster } from "@/components/ui/toaster"
 export const metadata: Metadata = {
   title: "Exoplanets-AI",
   description:
-    "Exoplanets AI conecta la API de exoplanetas de la NASA con OpenAI con universo 3D, donde se representa de forma interactiva en tiempo real tanto el exoplaneta del que se esta hablando como su estrella mientras conversas cómodamente con una AI entrenada con la información de la API de la NASA",
+    "EXOPLANETS-AI simula el universo y permite la exploración de los exoplanetas en 3D a escala real con inteligencia artificial para guiar a los usuarios en la exploración de los distintos cuerpos celestes y sus propiedades. El objetivo de EXOPLANETS-AI es brindar al usuario una experiencia inmersiva mientras descubre exoplanetas. Impulsado por Inteligencia artificial, utiliza Vercel AI SDK, conecta la API de la NASA con OpenAI y un entorno 3D del universo.",
   icons: "/favicon.png",
   openGraph: {
     images: "/favicon.png",

@@ -4,7 +4,7 @@
   <img src="logo.webp" alt="[TEXTO_ALTERNATIVO]"/>
 </p>
 
-#### EXOPLANETS-AI simula el universo y permite la exploración de los exoplanetas en 3D a escala real con inteligencia artificial para guiar a los usuario en la exploración de los distintos cuerpos celestes y sus propiedades. EXOPLANETS-AI está impulsado por Inteligencia artificial, utiliza [Vercel AI SDK](https://sdk.vercel.ai/), conecta la API de la NASA con OpenAI y un entorno 3D.
+#### EXOPLANETS-AI simula el universo y permite la exploración de los exoplanetas en 3D a escala real con inteligencia artificial para guiar a los usuarios en la exploración de los distintos cuerpos celestes y sus propiedades. EXOPLANETS-AI está impulsado por Inteligencia artificial, utiliza [Vercel AI SDK](https://sdk.vercel.ai/), conecta la API de la NASA con OpenAI y un entorno 3D.
 
 ### Datos fieles a la realidad
 

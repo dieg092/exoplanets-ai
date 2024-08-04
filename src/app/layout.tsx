@@ -7,7 +7,7 @@ import { Toaster } from "@/components/ui/toaster"
 export const metadata: Metadata = {
   title: "Exoplanets-AI",
   description:
-    "Exoplanets AI conecta la API de exoplanetas de la NASA con OpenAI con universo 3D, donde se representa de forma interactiva en tiempo real tanto el exoplaneta del que se esta hablando como su estrella mientras conversas cómodamente con una AI entrenada con la infromación de la API de la NASA",
+    "Exoplanets AI conecta la API de exoplanetas de la NASA con OpenAI con universo 3D, donde se representa de forma interactiva en tiempo real tanto el exoplaneta del que se esta hablando como su estrella mientras conversas cómodamente con una AI entrenada con la información de la API de la NASA",
   icons: "/favicon.png",
   openGraph: {
     images: "/favicon.png",

@@ -16,11 +16,11 @@
 - **Exoplanetas**: aspecto o textura, velocidad de rotación
 - **Estrellas**: aspecto o textura
 
-La API de la NASA no proporciona los datos necesarios para calcular cuantas horas tardan en rotar sobre si mismas, ni el aspecto que tienen. Por lo tanto, hemos dejado como rotación por defecto 24h y en cuanto al aspecto hemos hecho una estimación según la temperatura.
+La API de la NASA no proporciona los datos necesarios para calcular cuantas horas tardan en rotar sobre si mismos, ni el aspecto que tienen. Por lo tanto, hemos dejado como rotación por defecto 24h. En cuanto al aspecto hemos hecho una estimación según la temperatura.
 
 ### Acciones:
 
-El entorno 3D es sentible y reacciona modificando diferentes elementos de la escena según va evolucionando el contexto de la conversación. Hata ahora, este es el listado de acciones que reaccionan con el entorno 3D:
+El entorno 3D es sentible y reacciona modificando diferentes elementos de la escena según va evolucionando el contexto de la conversación. Hasta ahora, este es el listado de acciones que reaccionan el entorno 3D:
 
 - Muestra un exoplaneta aleatorio de la base de datos de la NASA
 - Modifica la velocidad de rotación del exoplaneta
@@ -34,6 +34,8 @@ También hay otras acciones que NO modifican la escena pero consulta datos de la
 - Muestra una lista de exoplanetas
 - Cuantos exoplanetas confirmados hay por la NASA
 - Total de exoplanetas no confirmados por la NASA
+
+---
 
 ## ¿Cómo puedo probarlo?
 
@@ -72,7 +74,7 @@ pnpm dev
 bun dev
 ```
 
-4. Crea un fichero .env en root del proyecto con la variable API_OPENAI_KEY con tu OpenAI API_KEY o colocar tu OPEN AI - API KEY en la parte superior del chat para poder utilizar la IA .
+4. Crea un fichero .env en root del proyecto con la variable API_OPENAI_KEY con tu OpenAI API_KEY o coloca tu OPEN AI - API KEY en la parte superior del chat para poder utilizar la IA .
 
 5. Abrir localhost en el puerto asignado, por ejemplo: [http://localhost:3000](http://localhost:3000)
 

@@ -90,7 +90,7 @@ export async function POST(req: Request) {
         }),
         exoplanet_standar_velocity: tool({
           description:
-            "Ajusta cualquier parámetro del exoplaneta a su estado normal",
+            "Ajusta cualquier parámetro del exoplaneta a su estado normal o busca el exoplaneta que dijo el usuario",
           parameters: z.object({ exoplanet_name: z.string() }),
           execute: async ({ exoplanet_name }) => {
             const exoplanet = findExoplanet(exoplanet_name)

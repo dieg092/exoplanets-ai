@@ -23,6 +23,7 @@ La API de la NASA no proporciona los datos necesarios para calcular cuantas hora
 El entorno 3D es sentible y reacciona modificando diferentes elementos de la escena según va evolucionando el contexto de la conversación. Hasta ahora, este es el listado de acciones que reaccionan el entorno 3D:
 
 - Muestra un exoplaneta aleatorio de la base de datos de la NASA
+- Muestra el exoplaneta que pide el usario si está en la base de datos de la NASA
 - Modifica la velocidad de rotación del exoplaneta
 - Aumenta la velocidad de órbita del exoplaneta alrededor de su estrella
 - Ajusta cualquier parámetro del exoplaneta a su estado normal
